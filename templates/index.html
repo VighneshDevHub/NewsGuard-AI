@@ -3,52 +3,74 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>News Key Phrase Extractor</title>
+    <title>News Authentication</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}" />
   </head>
   <body>
     <!-- Header Section -->
     <header>
+        <h1>News Authentication</h1>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#contact">Contact Us</a>
+        </nav>
     </header>
 
     <!-- Main Section -->
-    <main>
-      <div class="container">
+    <section class="hero" id="home">
         <h2>Enter News Article For Authentication</h2>
         <p>Paste your news article below for verification and key phrase extraction.</p>
-
-        <!-- Input Section -->
-        <textarea
-          id="news-input"
-          placeholder="Paste your news article here..."
-          rows="10"
-          aria-label="News Article Input"
-        ></textarea>
+        <div class="input-section">
+            <textarea
+                id="news-input"
+                placeholder="Paste your news article here..."
+                rows="10"
+                aria-label="News Article Input"
+            ></textarea>
+        </div>
         <div class="button-group">
-          <button id="extract-button" onclick="extractKeyPhrases()">Generate News Headlines</button>
-          <button id="auth-button" onclick="authenticateNews()">Authenticate News</button>
+            <button id="extract-button" onclick="extractKeyPhrases()">Generate News Headlines</button>
+            <button id="auth-button" onclick="authenticateNews()">Authenticate News</button>
         </div>
+    </section>
 
-        <!-- Loading Spinner -->
-        <div id="loading-spinner" class="hidden">
-          <div class="spinner"></div>
-          <p>Processing your request...</p>
+    <!-- Loading Spinner -->
+    <section id="loading-spinner" class="hidden">
+        <div class="spinner"></div>
+        <p>Processing your request...</p>
+    </section>
+
+    <!-- Output Section -->
+    <section id="result-section" class="hidden">
+        <h3>Extracted News Headlines</h3>
+        <ul id="headlines-list"></ul>
+
+        <!-- Section for Google Search Results -->
+        <h3>Top Similar News Articles</h3>
+        <ul id="search-results-list"></ul>
+    </section>
+
+    <section class="features">
+        <div class="feature">
+            <h3>Powered by AI</h3>
+            <p>Advanced algorithms that analyze news sources</p>
         </div>
-
-        <!-- Output Section -->
-        <div id="result-section" class="hidden">
-          <h3>Extracted News Headlines</h3>
-          <ul id="headlines-list"></ul>
-
-          <!-- Section for Google Search Results -->
-          <h3>Top Similar News Articles</h3>
-          <ul id="search-results-list"></ul>
+        <div class="feature">
+            <h3>Multiple Sources</h3>
+            <p>Compare against top news websites</p>
         </div>
-      </div>
-    </main>
+        <div class="feature">
+            <h3>Real-time Results</h3>
+            <p>Get immediate feedback on news authenticity</p>
+        </div>
+    </section>
 
     <!-- Footer Section -->
     <footer>
+        <p>&copy; 2025 News Authentication. All Rights Reserved.</p>
+        <p>Developed by <a href="https://github.com/sahil-kumar-yadav">Sahil Kumar Yadav</a></p>
     </footer>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>

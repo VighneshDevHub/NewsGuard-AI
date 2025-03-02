@@ -1,38 +1,473 @@
+from flask import Flask, request, jsonify, render_template, redirect
+import ollama
+import requests
+import json
+from bs4 import BeautifulSoup
+import trafilatura
+from urllib.parse import urlparse
+from datetime import datetime
+
+# Create the Flask app
+app = Flask(__name__)
+
+# Google Custom Search setup
+API_KEY = "AIzaSyB2nlYuSgnoKLBKC4aF2nfF2drE3ZWIMNk"
+CSE_ID = "15c198a8769a045ec"
+
+def google_search(query):
+    url = f"https://www.googleapis.com/customsearch/v1"
+    params = {
+        "q": query,
+        "key": API_KEY,
+        "cx": CSE_ID,
+    }
+    
+    response = requests.get(url, params=params)
+    
+    if response.status_code != 200:
+        raise Exception(f"Error with Google Search API: {response.status_code}")
+    
+    # Extract only the URLs from the search results
+    search_results = response.json()
+    urls = []
+    if 'items' in search_results:
+        urls = [item['link'] for item in search_results['items']]
+    
+    return urls
+
+def extract_key_phrases_with_ollama(text):
+    prompt = f"""
+        Please extract 3 concise headlines from the following news article. 
+        Make sure the headlines are clear and concise, focusing on the main facts and events,places,people,organizations,etc.
+    I have this news article:\n\n{text}\n\n
+    Please provide a response in pure JSON format():
+    {{
+        "news_headline": [
+            "news_headline_1",
+            "news_headline_2",
+            "news_headline_3"
+        ]
+    }}
+    """
+    
+    response = ollama.chat(model='llama3.2', messages=[{"role": "user", "content": prompt}])
+    
+    if 'message' in response and 'content' in response['message']:
+        try:
+            # Extract JSON from the response content
+            content = response['message']['content']
+            # Find the JSON object in the response
+            start = content.find('{')
+            end = content.rfind('}')
+            if start != -1 and end != -1:
+                json_str = content[start:end+1]
+                return json.loads(json_str)
+        except json.JSONDecodeError as e:
+            print(f"JSON parsing error: {e}")
+            raise
+    return None
+
+@app.route('/')
+def index():
+    return render_template('index.html', active_page='home')
+
+@app.route('/extract', methods=['POST'])
+def extract():
+    try:
+        data = request.get_json()
+        news_text = data.get('news')
+        
+        if not news_text:
+            return jsonify({'error': 'No news text provided'}), 400
+
+        # Extract key phrases using Ollama
+        result = extract_key_phrases_with_ollama(news_text)
+        
+        if not result or 'news_headline' not in result:
+            return jsonify({'error': 'Failed to extract headlines'}), 500
+
+        return jsonify({'key_phrases': result})
+
+    except Exception as e:
+        print(f"Error in extract endpoint: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/search', methods=['POST'])
+def search():
+    try:
+        data = request.get_json()
+        news_text = data.get('news')
+        
+        if not news_text:
+            return jsonify({'error': 'No news text provided'}), 400
+
+        # Perform Google search
+        search_results = google_search(news_text)
+        
+        return jsonify({
+            'google_search_results': search_results
+        })
+
+    except Exception as e:
+        print(f"Error in search endpoint: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+# Add this function to extract content and metadata from URLs
+def extract_article_content(url):
+    try:
+        # Download content
+        downloaded = trafilatura.fetch_url(url)
+        
+        if not downloaded:
+            return None
+
+        # Extract main content
+        content = trafilatura.extract(downloaded)
+        
+        # Get metadata using BeautifulSoup as backup
+        soup = BeautifulSoup(downloaded, 'html.parser')
+        title = soup.title.string if soup.title else ''
+        
+        # Parse the URL to get the source
+        source = urlparse(url).netloc.replace('www.', '')
+        
+        # Find image (first image in article or og:image)
+        image_url = None
+        og_image = soup.find('meta', property='og:image')
+        if og_image:
+            image_url = og_image.get('content')
+        
+        return {
+            'url': url,
+            'title': title,
+            'content': content,  # Full content for display
+            'description': content[:300] + '...' if content else '',
+            'source': source,
+            'image_url': image_url
+        }
+    except Exception as e:
+        print(f"Error extracting content from {url}: {str(e)}")
+        return None
+
+# Add new route for displaying extracted content
+@app.route('/extracted_content', methods=['POST'])
+def show_extracted_content():
+    try:
+        data = request.get_json()
+        original_news = data.get('news')
+        urls = data.get('urls', [])
+
+        if not urls:
+            return jsonify({'error': 'No URLs provided'}), 400
+
+        # Extract content from each URL
+        extracted_articles = []
+        for url in urls[:3]:  # Limit to top 3 URLs
+            article_content = extract_article_content(url)
+            if article_content:
+                extracted_articles.append(article_content)
+
+        return render_template('extracted_content.html',
+                             original_news=original_news,
+                             extracted_articles=extracted_articles,
+                             active_page='home')
+
+    except Exception as e:
+        print(f"Error in extracted_content endpoint: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/results', methods=['POST'])
+def show_results():
+    try:
+        data = request.get_json()
+        original_news = data.get('news')
+        headlines = data.get('headlines', [])
+        
+        if not headlines:
+            return jsonify({'error': 'No headlines provided'}), 400
+
+        search_results = []
+        
+        # Process each headline
+        for headline in headlines:
+            # Search for URLs
+            urls = google_search(headline)
+            
+            # Extract content from URLs
+            articles = []
+            for url in urls[:3]:  # Limit to top 3 URLs per headline
+                article_content = extract_article_content(url)
+                if article_content:
+                    articles.append(article_content)
+            
+            # Add to results if we found articles
+            if articles:
+                search_results.append({
+                    'headline': headline,
+                    'articles': articles
+                })
+
+        # Get current time
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        return render_template('search_results.html',
+                             original_news=original_news,
+                             search_results=search_results,
+                             current_time=current_time,
+                             active_page='home')
+
+    except Exception as e:
+        print(f"Error in results endpoint: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+# Add this new function after your existing functions
+def analyze_authenticity(original_news, verified_articles):
+    # Prepare the content for comparison
+    verified_contents = [article['content'] for article in verified_articles if article['content']]
+    
+    if not verified_contents:
+        return {
+            "authenticity_score": 0,
+            "key_findings": ["No verified sources available for comparison"],
+            "differences": ["Unable to verify due to lack of reference content"],
+            "supporting_evidence": [{"quote": "No verified sources found", "source": "System"}],
+            "score_breakdown": {
+                "factual_accuracy": 0,
+                "source_consistency": 0,
+                "detail_accuracy": 0,
+                "context_accuracy": 0
+            }
+        }
+
+    # Simplified prompt with clear instructions
+    prompt = f"""
+    Compare this news article against trusted sources and analyze its authenticity.
+    
+    Original News Article:
+    {original_news}
+
+    Trusted Sources:
+    {' '.join(verified_contents[:3])}
+
+    Analyze the factual accuracy, source consistency, detail accuracy, and context accuracy.
+    
+    Respond with a JSON object containing:
+    1. An overall authenticity score (0-100)
+    2. 2-3 key findings about the article's accuracy
+    3. 2-3 notable differences or issues found
+    4. 2-3 supporting quotes from trusted sources
+    5. A breakdown of scores for factual accuracy (0-40), source consistency (0-30), 
+       detail accuracy (0-20), and context accuracy (0-10)
+    """
+
+    try:
+        # Call the LLM with the simplified prompt
+        response = ollama.chat(model='llama3.2', messages=[
+            {
+                "role": "system",
+                "content": "You are a fact-checker,news analyst, and authenticity expert. Respond only with clean JSON in this format: {\"authenticity_score\": number, \"key_findings\": [string], \"differences\": [string], \"supporting_evidence\": [{\"quote\": string, \"source\": string}], \"score_breakdown\": {\"factual_accuracy\": number, \"source_consistency\": number, \"detail_accuracy\": number, \"context_accuracy\": number}}"
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ])
+
+        # Extract content from response
+        if not response or 'message' not in response or 'content' not in response['message']:
+            return create_error_response("Invalid response from LLM")
+
+        content = response['message']['content'].strip()
+        
+        # Extract JSON from the response
+        try:
+            # Find JSON object in the response
+            start = content.find('{')
+            end = content.rfind('}')
+            if start != -1 and end != -1:
+                json_str = content[start:end+1]
+                result = json.loads(json_str)
+                
+                # Create a standardized response with defaults for missing fields
+                analysis = {
+                    "authenticity_score": 0,
+                    "key_findings": [],
+                    "differences": [],
+                    "supporting_evidence": [],
+                    "score_breakdown": {
+                        "factual_accuracy": 0,
+                        "source_consistency": 0,
+                        "detail_accuracy": 0,
+                        "context_accuracy": 0
+                    }
+                }
+                
+                # Extract and validate authenticity score
+                try:
+                    score = int(result.get('authenticity_score', 0))
+                    analysis["authenticity_score"] = max(0, min(100, score))
+                except (ValueError, TypeError):
+                    pass
+                
+                # Extract key findings (up to 3)
+                findings = result.get('key_findings', [])
+                if isinstance(findings, list):
+                    analysis["key_findings"] = [str(f) for f in findings[:3]]
+                
+                # Extract differences (up to 3)
+                differences = result.get('differences', [])
+                if isinstance(differences, list):
+                    analysis["differences"] = [str(d) for d in differences[:3]]
+                
+                # Extract supporting evidence (up to 3)
+                evidence = result.get('supporting_evidence', [])
+                if isinstance(evidence, list):
+                    for item in evidence[:3]:
+                        if isinstance(item, dict):
+                            analysis["supporting_evidence"].append({
+                                "quote": str(item.get('quote', '')),
+                                "source": str(item.get('source', 'Unknown'))
+                            })
+                
+                # Extract score breakdown
+                breakdown = result.get('score_breakdown', {})
+                if isinstance(breakdown, dict):
+                    try:
+                        analysis["score_breakdown"] = {
+                            "factual_accuracy": max(0, min(40, int(breakdown.get('factual_accuracy', 0)))),
+                            "source_consistency": max(0, min(30, int(breakdown.get('source_consistency', 0)))),
+                            "detail_accuracy": max(0, min(20, int(breakdown.get('detail_accuracy', 0)))),
+                            "context_accuracy": max(0, min(10, int(breakdown.get('context_accuracy', 0))))
+                        }
+                    except (ValueError, TypeError):
+                        pass
+                
+                return analysis
+            else:
+                return create_error_response("Could not find JSON in LLM response")
+                
+        except json.JSONDecodeError:
+            return create_error_response("Failed to parse LLM response")
+
+    except Exception as e:
+        print(f"Error in analyze_authenticity: {str(e)}")
+        return create_error_response(f"Analysis failed: {str(e)}")
+
+def create_error_response(error_message):
+    return {
+        "authenticity_score": 0,
+        "key_findings": [error_message],
+        "differences": ["Analysis failed"],
+        "supporting_evidence": [{"quote": "Error processing request", "source": "System"}],
+        "score_breakdown": {
+            "factual_accuracy": 0,
+            "source_consistency": 0,
+            "detail_accuracy": 0,
+            "context_accuracy": 0
+        }
+    }
+
+@app.route('/analyze_authenticity', methods=['POST'])
+def get_authenticity_analysis():
+    try:
+        data = request.get_json()
+        if not data:
+            raise ValueError("No JSON data received")
+
+        original_news = data.get('original_news')
+        verified_articles = data.get('verified_articles', [])
+        
+        if not original_news:
+            raise ValueError("No original news content provided")
+            
+        analysis_result = analyze_authenticity(original_news, verified_articles)
+        return jsonify(analysis_result)
+        
+    except Exception as e:
+        print(f"Error in get_authenticity_analysis: {str(e)}")
+        return jsonify({
+            "authenticity_score": 0,
+            "key_findings": ["Error during analysis"],
+            "differences": ["Analysis failed"],
+            "supporting_evidence": [{"quote": "Unable to process", "source": "System"}],
+            "score_breakdown": {
+                "factual_accuracy": 0,
+                "source_consistency": 0,
+                "detail_accuracy": 0,
+                "context_accuracy": 0
+            }
+        }), 200  # Return 200 instead of 500 to handle error gracefully
+
+@app.route('/about')
+def about():
+    try:
+        return render_template('about.html', active_page='about')
+    except Exception as e:
+        print(f"Error rendering about page: {str(e)}")
+        return redirect('/')
+
+@app.route('/how-it-works')
+def how_it_works():
+    try:
+        return render_template('how-it-works.html', active_page='how-it-works')
+    except Exception as e:
+        print(f"Error rendering how-it-works page: {str(e)}")
+        return redirect('/')
+
+@app.route('/contact')
+def contact():
+    try:
+        return render_template('contact.html', active_page='contact')
+    except Exception as e:
+        print(f"Error rendering contact page: {str(e)}")
+        return redirect('/')
+
+@app.route('/submit-contact', methods=['POST'])
+def submit_contact():
+    try:
+        name = request.form.get('name')
+        email = request.form.get('email')
+        subject = request.form.get('subject')
+        message = request.form.get('message')
+        
+        # Here you would typically send an email or store the contact form data
+        # For now, we'll just return a success message
+        return jsonify({'success': True, 'message': 'Thank you for your message. We will get back to you soon!'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000,debug=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#  Key Phrase Extraction
+
+
+
 # from flask import Flask, request, jsonify, render_template
 # import ollama
-# import requests
 # import json
+# import re
 
-# # Create the Flask app
 # app = Flask(__name__)
 
-# # Google Custom Search setup
-# API_KEY = "AIzaSyB2nlYuSgnoKLBKC4aF2nfF2drE3ZWIMNk"  # Replace with your actual Google API Key
-# CSE_ID = "15c198a8769a045ec"  # Replace with your Custom Search Engine ID
-
-# # Function to perform Google Search
-# def google_search(query):
-#     url = f"https://www.googleapis.com/customsearch/v1"
-#     params = {
-#         "q": query,
-#         "key": API_KEY,
-#         "cx": CSE_ID,
-#     }
-    
-#     # Send GET request to Google API
-#     response = requests.get(url, params=params)
-    
-#     # Log the raw response from Google
-#     print(f"Google search response for query '{query}':", response.json())
-
-#     # If the response status code is not 200 (OK), raise an error
-#     if response.status_code != 200:
-#         raise Exception(f"Error with Google Search API: {response.status_code}")
-    
-#     # Return the search results
-#     return response.json()
-
-# # Function to extract key phrases using Ollama
+# # Function to extract key phrases using Ollama's model
 # def extract_key_phrases_with_ollama(text):
 #     prompt = f"""
 #     I have this news article:\n\n{text}\n\n
@@ -50,158 +485,67 @@
 #         ]
 #     }}
 #     """
-#     response = ollama.chat(model="llama3.2", messages=[{"role": "user", "content": prompt}])
-    
-#     if 'message' in response and 'content' in response['message']:
-#         return response['message']['content']
-#     return None
 
-# # Route to render the HTML
+#     # Call Ollama's chat API
+#     response = ollama.chat(model="llama3.2", messages=[
+#         {"role": "user", "content": prompt},
+#     ])
+
+#     # Log the raw response for debugging purposes
+#     print(f"Raw response from Ollama API: {response}")
+
+#     # Get the response content
+#     response_content = response.get('message', {}).get('content', '')
+#     if not response_content:
+#         raise ValueError("No content in the response")
+
+#     # Attempt to extract the JSON block between triple backticks.
+#     # This regex looks for triple backticks (optionally followed by "json"),
+#     # then captures everything between the first { and the matching }.
+#     match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", response_content, re.DOTALL)
+#     if match:
+#         json_string = match.group(1)
+#     else:
+#         # Fallback: try to extract everything between the first '{' and the last '}'
+#         start = response_content.find("{")
+#         end = response_content.rfind("}")
+#         if start != -1 and end != -1:
+#             json_string = response_content[start:end+1]
+#         else:
+#             raise ValueError("Could not extract JSON content from the response")
+
+#     try:
+#         json_response = json.loads(json_string)
+#         return json_response
+#     except json.JSONDecodeError as e:
+#         print(f"JSON decoding error: {e}")
+#         raise ValueError("Invalid JSON response from Ollama API")
+
+# # Route to serve the frontend
 # @app.route('/')
-# def index():
+# def home():
 #     return render_template('index.html')
 
-# # Route to handle the POST request for Google search
+# # Route to handle key phrase extraction
 # @app.route('/extract', methods=['POST'])
 # def extract():
-#     data = request.get_json()
-#     news_text = data['news']
+#     data = request.json
+#     news_article = data.get('news', '')
 
-#     # Step 1: Extract key phrases using Ollama
-#     key_phrases_response = extract_key_phrases_with_ollama(news_text)
+#     if not news_article:
+#         return jsonify({"error": "No news article provided"}), 400
+
+#     try:
+#         # Extract key phrases
+#         key_phrases = extract_key_phrases_with_ollama(news_article)
+#         print(f"Extracted key phrases: {key_phrases}")  # Debug output
+#         return jsonify({"key_phrases": key_phrases})
+#     except Exception as e:
+#         print(f"Error: {str(e)}")
+#         return jsonify({"error": str(e)}), 500
     
-#     if key_phrases_response is None:
-#         return jsonify({"error": "Failed to extract key phrases."}), 500
 
-#     # Log the raw response to check its structure
-#     print("Ollama response (raw):", key_phrases_response)
-
-#     # Step 2.1: Parse the key_phrases_response from JSON string to a Python dictionary
-#     try:
-#         key_phrases_response = json.loads(key_phrases_response)
-#         print("Parsed Ollama response:", key_phrases_response)
-#     except json.JSONDecodeError as e:
-#         return jsonify({"error": f"Failed to decode JSON response from Ollama. Error: {e}"}), 500
-
-#     # Parse the key phrases and headlines from the response
-#     try:
-#         headlines = key_phrases_response.get("news_headline", [])  # Access headlines, default to empty list if missing
-#         print("Extracted Headlines:", headlines)
-#     except KeyError as e:
-#         return jsonify({"error": f"Invalid key phrases response format. Missing key: {e}"}), 500
-
-#     # If fewer than 3 headlines, add placeholders
-#     while len(headlines) < 3:
-#         headlines.append("")
-
-#     # Step 3: Perform Google search for each of the top 3 headlines
-#     google_search_results = {}
-#     for headline in headlines:
-#         if headline:  # Skip empty headlines
-#             search_results = google_search(headline)
-            
-#             # Log the raw Google search results to debug
-#             print(f"Google search results for '{headline}':", search_results)
-
-#             # Store the top 3 news articles from the Google search results
-#             google_search_results[headline] = search_results.get('items', [])[:3]  # Limit to top 3 results
-
-#     # Combine the results and return them as JSON
-#     return jsonify({
-#         "key_phrases": key_phrases_response,
-#         "google_search_results": google_search_results
-#     })
 
 # if __name__ == '__main__':
 #     app.run(debug=True)
 
-
-
-from flask import Flask, request, jsonify, render_template
-import ollama
-import json
-import re
-
-app = Flask(__name__)
-
-# Function to extract key phrases using Ollama's model
-def extract_key_phrases_with_ollama(text):
-    prompt = f"""
-    I have this news article:\n\n{text}\n\n
-    Please provide a response in pure JSON format:
-    
-    {{
-        "news_authenticity": {{
-            "authenticity_percentage": "Provide an authenticity percentage between 0 and 100",
-            "explanation": "Provide an explanation about the gap between the original news and the extracted news"
-        }},
-        "news_headline": [
-            "news_headline_1",
-            "news_headline_2",
-            "news_headline_3"
-        ]
-    }}
-    """
-
-    # Call Ollama's chat API
-    response = ollama.chat(model="llama3.2", messages=[
-        {"role": "user", "content": prompt},
-    ])
-
-    # Log the raw response for debugging purposes
-    print(f"Raw response from Ollama API: {response}")
-
-    # Get the response content
-    response_content = response.get('message', {}).get('content', '')
-    if not response_content:
-        raise ValueError("No content in the response")
-
-    # Attempt to extract the JSON block between triple backticks.
-    # This regex looks for triple backticks (optionally followed by "json"),
-    # then captures everything between the first { and the matching }.
-    match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", response_content, re.DOTALL)
-    if match:
-        json_string = match.group(1)
-    else:
-        # Fallback: try to extract everything between the first '{' and the last '}'
-        start = response_content.find("{")
-        end = response_content.rfind("}")
-        if start != -1 and end != -1:
-            json_string = response_content[start:end+1]
-        else:
-            raise ValueError("Could not extract JSON content from the response")
-
-    try:
-        json_response = json.loads(json_string)
-        return json_response
-    except json.JSONDecodeError as e:
-        print(f"JSON decoding error: {e}")
-        raise ValueError("Invalid JSON response from Ollama API")
-
-# Route to serve the frontend
-@app.route('/')
-def home():
-    return render_template('index.html')
-
-# Route to handle key phrase extraction
-@app.route('/extract', methods=['POST'])
-def extract():
-    data = request.json
-    news_article = data.get('news', '')
-
-    if not news_article:
-        return jsonify({"error": "No news article provided"}), 400
-
-    try:
-        # Extract key phrases
-        key_phrases = extract_key_phrases_with_ollama(news_article)
-        print(f"Extracted key phrases: {key_phrases}")  # Debug output
-        return jsonify({"key_phrases": key_phrases})
-    except Exception as e:
-        print(f"Error: {str(e)}")
-        return jsonify({"error": str(e)}), 500
-    
-
-
-if __name__ == '__main__':
-    app.run(debug=True)

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NewsGuard AI - How it Works</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/how-it-works.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    {% include 'components/navbar.html' %}
+
+    <main>
+      <section class="hero-section">
+        <h1>How NewsGuard AI Works</h1>
+        <p class="subtitle">
+          Discover how our AI-powered platform verifies news authenticity in
+          real-time
+        </p>
+      </section>
+
+      <section class="section process-section">
+        <div class="section-header">
+          <h2>Our Verification Process</h2>
+          <p>
+            Our advanced AI system analyzes news content through multiple layers
+            of verification to ensure accuracy and reliability.
+          </p>
+        </div>
+
+        <div class="process-timeline">
+          <div class="timeline-item">
+            <div class="timeline-icon">
+              <i class="fas fa-link"></i>
+            </div>
+            <div class="timeline-content">
+              <h3>1. URL Analysis</h3>
+              <p>
+                Enter any news article URL into our system for immediate
+                processing and analysis.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-icon">
+              <i class="fas fa-robot"></i>
+            </div>
+            <div class="timeline-content">
+              <h3>2. AI Processing</h3>
+              <p>
+                Our advanced machine learning algorithms analyze the content,
+                checking for patterns and indicators of authenticity.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-icon">
+              <i class="fas fa-search"></i>
+            </div>
+            <div class="timeline-content">
+              <h3>3. Cross-Reference Check</h3>
+              <p>
+                The system compares the article against trusted sources and
+                fact-checking databases in real-time.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-icon">
+              <i class="fas fa-chart-bar"></i>
+            </div>
+            <div class="timeline-content">
+              <h3>4. Score Generation</h3>
+              <p>
+                A comprehensive credibility score is generated based on multiple
+                factors and verification results.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section features-section">
+        <div class="section-header">
+          <h2>Key Features</h2>
+          <p>
+            Explore the powerful features that make NewsGuard AI the leading
+            choice for news verification.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="card feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <h3>Real-Time Analysis</h3>
+            <p>
+              Get instant results with our lightning-fast AI processing system.
+            </p>
+          </div>
+
+          <div class="card feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h3>Smart Learning</h3>
+            <p>
+              Our AI continuously learns and adapts to new patterns of
+              misinformation.
+            </p>
+          </div>
+
+          <div class="card feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Reliable Results</h3>
+            <p>
+              Trust in our proven accuracy rate and comprehensive verification
+              process.
+            </p>
+          </div>
+
+          <div class="card feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3>Detailed Reports</h3>
+            <p>
+              Access in-depth analysis reports with specific credibility
+              indicators.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section demo-section">
+        <div class="section-header">
+          <h2>See It in Action</h2>
+          <p>
+            Try our news verification system now and experience the power of
+            AI-driven fact-checking.
+          </p>
+        </div>
+
+        <div class="demo-container">
+          <div class="demo-card">
+            <div class="demo-content">
+              <h3>Ready to verify your first article?</h3>
+              <p>
+                Enter any news article URL and let our AI analyze its
+                authenticity within seconds.
+              </p>
+              <a href="/" class="button button-primary">Try It Now</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section faq-section">
+        <div class="section-header">
+          <h2>Frequently Asked Questions</h2>
+          <p>
+            Find answers to common questions about our news verification
+            process.
+          </p>
+        </div>
+
+        <div class="faq-grid">
+          <div class="card faq-card">
+            <h3>How accurate is the AI analysis?</h3>
+            <p>
+              Our AI system has achieved a 95% accuracy rate in identifying
+              false information, backed by continuous learning and verification
+              against trusted sources.
+            </p>
+          </div>
+
+          <div class="card faq-card">
+            <h3>How long does the analysis take?</h3>
+            <p>
+              Most articles are analyzed within seconds, with comprehensive
+              reports generated in under a minute.
+            </p>
+          </div>
+
+          <div class="card faq-card">
+            <h3>What types of content can be verified?</h3>
+            <p>
+              Our system can verify news articles, blog posts, and other
+              text-based content from any online source.
+            </p>
+          </div>
+
+          <div class="card faq-card">
+            <h3>Is the service free to use?</h3>
+            <p>
+              Yes, basic verification is free for all users. Premium features
+              are available for advanced users and organizations.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    {% include 'components/footer.html' %}
+    <script
+      type="module"
+      src="{{ url_for('static', filename='js/faq.js') }}"
+    ></script>
+  </body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NewsGuard AI - Contact Us</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/contact.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    {% include 'components/navbar.html' %}
+
+    <main>
+      <section class="hero-section">
+        <h1>Contact Us</h1>
+        <p class="subtitle">
+          Have questions? We're here to help and would love to hear from you.
+        </p>
+      </section>
+
+      <section class="contact-section">
+        <div class="contact-grid">
+          <div class="contact-info">
+            <div class="info-header">
+              <h2>Get in Touch</h2>
+              <p>We're here to help and answer any questions you might have.</p>
+            </div>
+
+            <div class="info-items">
+              <div class="info-item">
+                <div class="info-icon">
+                  <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="info-content">
+                  <h3>Location</h3>
+                  <p>123 Innovation Street, Tech Valley, CA 94043</p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-icon">
+                  <i class="fas fa-phone"></i>
+                </div>
+                <div class="info-content">
+                  <h3>Phone</h3>
+                  <p>+1 (555) 123-4567</p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-icon">
+                  <i class="fas fa-envelope"></i>
+                </div>
+                <div class="info-content">
+                  <h3>Email</h3>
+                  <p>contact@newsguardai.com</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="social-section">
+              <h3>Connect With Us</h3>
+              <div class="social-links">
+                <a href="#" class="social-link" target="_blank">
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="social-link" target="_blank">
+                  <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="#" class="social-link" target="_blank">
+                  <i class="fab fa-github"></i>
+                </a>
+                <a href="#" class="social-link" target="_blank">
+                  <i class="fab fa-instagram"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-form-container">
+            <form class="contact-form" novalidate>
+              <div class="info-header">
+                <h2>Send a Message</h2>
+                <p>Fill this form to communicate with us</p>
+
+              <div class="form-group">
+                <div class="input-wrapper">
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    placeholder="Your Name"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="input-wrapper">
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    placeholder="Your Email"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="input-wrapper">
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    required
+                    placeholder="Subject"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="input-wrapper">
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    placeholder="Your Message"
+                    rows="5"
+                  ></textarea>
+                </div>
+              </div>
+
+              <button type="submit" class="submit-btn">
+                <i class="fas fa-paper-plane"></i> Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="section faq-section">
+        <div class="section-header">
+          <h2>Frequently Asked Questions</h2>
+          <p>
+            Find quick answers to common questions about our services and
+            support.
+          </p>
+        </div>
+
+        <div class="faq-grid">
+          <div class="card faq-card">
+            <h3>What are your support hours?</h3>
+            <p>
+              Our support team is available Monday through Friday, 9:00 AM to
+              6:00 PM PST. For urgent matters, you can use our 24/7 live chat
+              service.
+            </p>
+          </div>
+
+          <div class="card faq-card">
+            <h3>How quickly do you respond to emails?</h3>
+            <p>
+              We aim to respond to all email inquiries within 24 hours during
+              business days. For faster response, please use our live chat
+              service.
+            </p>
+          </div>
+
+          <div class="card faq-card">
+            <h3>Do you offer technical support?</h3>
+            <p>
+              Yes, we provide comprehensive technical support for all our
+              services. Our team of experts is ready to assist you with any
+              technical issues.
+            </p>
+          </div>
+
+          <div class="card faq-card">
+            <h3>Can I request a demo?</h3>
+            <p>
+              Absolutely! You can request a personalized demo by filling out the
+              contact form or emailing us at business@newsguardai.com.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    {% include 'components/footer.html' %}
+    <script type="module" src="{{ url_for('static', filename='js/contact-main.js') }}"></script>
+  </body>
+</html>

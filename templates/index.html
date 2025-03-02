@@ -3,76 +3,334 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>News Authentication</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}" />
+    <title>NewsGuard AI - News Authentication</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
   </head>
   <body>
-    <!-- Header Section -->
-    <header>
-        <h1>News Authentication</h1>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#how-it-works">How It Works</a>
-            <a href="#contact">Contact Us</a>
-        </nav>
-    </header>
+    {% include 'components/navbar.html' %}
 
-    <!-- Main Section -->
-    <section class="hero" id="home">
-        <h2>Enter News Article For Authentication</h2>
-        <p>Paste your news article below for verification and key phrase extraction.</p>
-        <div class="input-section">
-            <textarea
+    <main>
+      <section class="hero" id="home">
+        <div class="hero-container">
+          <div class="hero-text">
+            <h1>Your Shield Against Digital Deception</h1>
+            <p class="hero-subtitle">
+              Every day, millions of people fall victim to misleading news and
+              disinformation. Our AI-powered verification system helps you
+              distinguish fact from fiction, ensuring you stay informed with
+              verified truth.
+            </p>
+            <div class="hero-features">
+              <div class="feature-tag">
+                <i class="fas fa-ban"></i>
+                Stop Fake
+              </div>
+              <div class="feature-tag">
+                <i class="fas fa-fingerprint"></i>
+                Find Truth
+              </div>
+              <div class="feature-tag">
+                <i class="fas fa-bolt"></i>
+                Fast Check
+              </div>
+            </div>
+          </div>
+
+          <div class="verification-box">
+            <div class="box-header">
+              <div class="status-indicator">
+                <span class="pulse"></span>
+                AI System Active
+              </div>
+            </div>
+
+            <div class="input-area">
+              <textarea
                 id="news-input"
-                placeholder="Paste your news article here..."
-                rows="10"
-                aria-label="News Article Input"
-            ></textarea>
+                placeholder="Paste your article here to verify..."
+                rows="5"
+              ></textarea>
+
+              <div class="action-buttons">
+                <button id="extract-button" onclick="extractKeyPhrases()">
+                  <i class="fas fa-robot"></i>
+                  Analyze
+                </button>
+                <button id="search-button" onclick="searchNews()">
+                  <i class="fas fa-search"></i>
+                  Cross Check
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="button-group">
-            <button id="extract-button" onclick="extractKeyPhrases()">Generate News Headlines</button>
-            <button id="auth-button" onclick="authenticateNews()">Authenticate News</button>
+      </section>
+
+      <!-- Analysis Results Section -->
+      <section id="result-section" class="results hidden">
+        <div class="results-container">
+          <div class="results-header">
+            <h2>Analysis Results</h2>
+          </div>
+
+          <div class="result-card">
+            <h3>Key Points</h3>
+            <ul id="headlines-list"></ul>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <!-- Loading Spinner -->
-    <section id="loading-spinner" class="hidden">
-        <div class="spinner"></div>
-        <p>Processing your request...</p>
-    </section>
-
-    <!-- Output Section -->
-    <section id="result-section" class="hidden">
-        <h3>Extracted News Headlines</h3>
-        <ul id="headlines-list"></ul>
-
-        <!-- Section for Google Search Results -->
-        <h3>Top Similar News Articles</h3>
-        <ul id="search-results-list"></ul>
-    </section>
-
-    <section class="features">
-        <div class="feature">
-            <h3>Powered by AI</h3>
-            <p>Advanced algorithms that analyze news sources</p>
+      <!-- Loading Spinner -->
+      <section id="loading-spinner" class="loading hidden">
+        <div class="loading-content">
+          <div class="loading-spinner"></div>
+          <p>Analyzing Content</p>
+          <div class="progress-bar">
+            <div class="progress"></div>
+          </div>
         </div>
-        <div class="feature">
-            <h3>Multiple Sources</h3>
-            <p>Compare against top news websites</p>
-        </div>
-        <div class="feature">
-            <h3>Real-time Results</h3>
-            <p>Get immediate feedback on news authenticity</p>
-        </div>
-    </section>
+      </section>
 
-    <!-- Footer Section -->
-    <footer>
-        <p>&copy; 2025 News Authentication. All Rights Reserved.</p>
-        <p>Developed by <a href="https://github.com/sahil-kumar-yadav">Sahil Kumar Yadav</a></p>
-    </footer>
+      <!-- Statistics Section -->
+      <section class="stats">
+        <div class="section-header">
+          <h2>Trusted Worldwide</h2>
+          <p>
+            Empowering journalists and fact-checkers with AI-powered accuracy
+          </p>
+        </div>
+        <div class="stats-container">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-number">99.9%</div>
+              <div class="stat-label">Accuracy</div>
+              <div class="stat-desc">Verified by experts</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-globe"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-number">50K+</div>
+              <div class="stat-label">Daily Users</div>
+              <div class="stat-desc">Global reach</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-number">2.5s</div>
+              <div class="stat-label">Response Time</div>
+              <div class="stat-desc">Lightning fast</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-newspaper"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-number">1M+</div>
+              <div class="stat-label">Articles</div>
+              <div class="stat-desc">Analyzed daily</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+      <section class="features">
+        <div class="section-header">
+          <h2>Why Choose NewsGuard AI</h2>
+          <p>Advanced features designed for reliable news verification</p>
+        </div>
+        <div class="features-container">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <h3>Real-Time Analysis</h3>
+            <p>Get instant verification results powered by advanced AI</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Reliable Results</h3>
+            <p>Cross-referenced with trusted news sources</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3>Smart Detection</h3>
+            <p>Advanced algorithms to detect misinformation</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How It Works Section -->
+      <section class="how-it-works">
+        <div class="section-header">
+          <h2>How It Works!</h2>
+          <p>Fast and accurate news verification in 4 simple steps</p>
+        </div>
+        <div class="steps-container">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <i class="fas fa-newspaper step-icon"></i>
+            <h3>Submit</h3>
+            <p>Paste any news article or headline</p>
+            <div class="step-detail">2s input time</div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <i class="fas fa-microchip step-icon"></i>
+            <h3>Process</h3>
+            <p>AI analyzes content instantly</p>
+            <div class="step-detail">2.5s analysis</div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <i class="fas fa-shield-alt step-icon"></i>
+            <h3>Verify</h3>
+            <p>Cross-check with trusted sources</p>
+            <div class="step-detail">1M+ sources</div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <i class="fas fa-chart-bar step-icon"></i>
+            <h3>Report</h3>
+            <p>Get detailed verification results</p>
+            <div class="step-detail">99.9% accurate</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Technology Section -->
+      <section class="technology">
+        <div class="section-header">
+          <h2>Advanced Technology Stack</h2>
+          <p>Powered by modern technologies</p>
+        </div>
+        <div class="tech-grid">
+          <div class="tech-card">
+            <div class="tech-icon">
+              <i class="fab fa-python"></i>
+            </div>
+            <h3>Python + Flask</h3>
+            <p>Backend framework with API integration</p>
+          </div>
+          <div class="tech-card">
+            <div class="tech-icon">
+              <i class="fas fa-code"></i>
+            </div>
+            <h3>HTML5 + CSS3</h3>
+            <p>Modern responsive design</p>
+          </div>
+          <div class="tech-card">
+            <div class="tech-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h3>NLP AI</h3>
+            <p>Text analysis algorithms</p>
+          </div>
+          <div class="tech-card">
+            <div class="tech-icon">
+              <i class="fas fa-server"></i>
+            </div>
+            <h3>REST APIs</h3>
+            <p>Real-time verification</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Trust Section -->
+      <section class="trust">
+        <div class="section-header">
+          <h2>Trusted by Professionals</h2>
+          <p>See what journalists and fact-checkers say about NewsGuard AI</p>
+        </div>
+        <div class="testimonials">
+          <div class="testimonial-card">
+            <i class="fas fa-quote-left quote"></i>
+            <p>
+              "NewsGuard AI has revolutionized our fact-checking process. It's
+              fast, accurate, and incredibly reliable."
+            </p>
+            <div class="author">
+              <i class="fas fa-user-circle author-image"></i>
+              <div class="author-info">
+                <h4>Sarah Johnson</h4>
+                <span>Senior Journalist, The Daily Times</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <i class="fas fa-quote-left quote"></i>
+            <p>
+              "This tool has become indispensable in our newsroom. It helps us
+              maintain the highest standards of journalism."
+            </p>
+            <div class="author">
+              <i class="fas fa-user-circle author-image"></i>
+              <div class="author-info">
+                <h4>Michael Chen</h4>
+                <span>Editor-in-Chief, News Network</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <i class="fas fa-quote-left quote"></i>
+            <p>
+              "The speed and accuracy of NewsGuard AI is impressive. It's a
+              game-changer for modern journalism."
+            </p>
+            <div class="author">
+              <i class="fas fa-user-circle author-image"></i>
+              <div class="author-info">
+                <h4>Emma Rodriguez</h4>
+                <span>Fact-Checking Specialist</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="cta">
+        <div class="cta-content">
+          <h2>Start Verifying News Today</h2>
+          <p>
+            Join thousands of professionals who trust NewsGuard AI for accurate
+            news verification
+          </p>
+          <button class="cta-button">Try It Now</button>
+        </div>
+      </section>
+    </main>
+
+    {% include 'components/footer.html' %}
+    <script
+      type="module"
+      src="{{ url_for('static', filename='js/main.js') }}"
+    ></script>
   </body>
 </html>

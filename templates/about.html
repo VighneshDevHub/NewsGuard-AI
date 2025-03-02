@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NewsGuard AI - About Us</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/about.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    {% include 'components/navbar.html' %}
+
+    <main>
+      <section class="hero-section">
+        <h1>About NewsGuard AI</h1>
+        <p class="subtitle">Empowering Truth in the Digital Age</p>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2>Our Mission</h2>
+          <p>
+            At NewsGuard AI, we're committed to combating misinformation and
+            helping people verify the authenticity of news articles. In an era
+            where fake news spreads rapidly, we provide cutting-edge AI-powered
+            tools to help users make informed decisions about the content they
+            consume.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="card feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-robot"></i>
+            </div>
+            <h3>AI-Powered Analysis</h3>
+            <p>
+              Advanced machine learning algorithms analyze news content for
+              authenticity with high precision.
+            </p>
+          </div>
+          <div class="card feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-globe"></i>
+            </div>
+            <h3>Cross-Reference Verification</h3>
+            <p>
+              Compare news against trusted sources across the internet in
+              real-time.
+            </p>
+          </div>
+          <div class="card feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <h3>Real-Time Results</h3>
+            <p>
+              Get instant verification results and detailed credibility scores.
+            </p>
+          </div>
+          <div class="card feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Trusted Platform</h3>
+            <p>Built with enterprise-grade security and privacy protection.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section team-section">
+        <div class="section-header">
+          <h2>Meet Our Team</h2>
+          <p>
+            We are a dedicated team of technologists, journalists, and data
+            scientists working together to make the internet a more trustworthy
+            place.
+          </p>
+        </div>
+
+        <div class="team-grid">
+          <div class="card team-card">
+            <div class="team-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <h3>Sarah Johnson</h3>
+            <div class="role">Chief Technology Officer</div>
+            <p>
+              Leading our AI development with over 15 years of experience in
+              machine learning and natural language processing.
+            </p>
+            <div class="social-links">
+              <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+              <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+
+          <div class="card team-card">
+            <div class="team-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <h3>Michael Chen</h3>
+            <div class="role">Head of Research</div>
+            <p>
+              Former journalist with a passion for truth and expertise in
+              fact-checking methodologies.
+            </p>
+            <div class="social-links">
+              <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+              <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+
+          <div class="card team-card">
+            <div class="team-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <h3>Emma Rodriguez</h3>
+            <div class="role">Lead Data Scientist</div>
+            <p>
+              Specializing in natural language processing and information
+              verification systems.
+            </p>
+            <div class="social-links">
+              <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+              <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section cta-section">
+        <div class="section-header">
+          <h2>Ready to Get Started?</h2>
+          <p>
+            Join thousands of users who trust NewsGuard AI for reliable news
+            verification.
+          </p>
+        </div>
+        <div class="cta-buttons">
+          <a href="/" class="button button-primary">Try It Now</a>
+          <a href="/contact" class="button button-secondary">Contact Us</a>
+        </div>
+      </section>
+    </main>
+
+    {% include 'components/footer.html' %}
+  </body>
+</html>

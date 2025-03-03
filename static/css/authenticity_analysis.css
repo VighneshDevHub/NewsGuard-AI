@@ -1,1 +1,100 @@
- 
+.analysis-results {
+  margin: 2rem 0;
+  padding: 1rem;
+}
+
+.score-card {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.score-circle {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+.score-chart {
+  width: 100%;
+  height: 100%;
+}
+
+.score-background {
+  fill: none;
+  stroke: #eee;
+  stroke-width: 3;
+}
+
+.score-value {
+  fill: none;
+  stroke: #4caf50;
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.5s ease;
+}
+
+.score-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.score-label {
+  font-size: 1rem;
+  color: #666;
+}
+
+.analysis-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.analysis-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.analysis-card h3 {
+  color: #333;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.analysis-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.analysis-card li {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.analysis-card blockquote {
+  margin: 0;
+  padding-left: 1rem;
+  border-left: 3px solid #4caf50;
+  font-style: italic;
+}
+
+.analysis-card cite {
+  display: block;
+  margin-top: 0.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.hidden {
+  display: none;
+}

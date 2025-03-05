@@ -6,9 +6,24 @@ from bs4 import BeautifulSoup
 import trafilatura
 from urllib.parse import urlparse
 from datetime import datetime
+from flask_mail import Mail, Message
+
 
 # Create the Flask app
 app = Flask(__name__)
+
+# Initialize Flask-Mail
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'salunkhesantosh787@gmail.com'  # Your email here
+app.config['MAIL_PASSWORD'] = 'ohjq iqcn zrpt xpco'  # Your email password here
+
+# Initialize the Mail instance
+mail = Mail(app)
+
+
 
 # Google Custom Search setup
 API_KEY = "AIzaSyB2nlYuSgnoKLBKC4aF2nfF2drE3ZWIMNk"
@@ -424,17 +439,32 @@ def contact():
 
 @app.route('/submit-contact', methods=['POST'])
 def submit_contact():
+    print(request.json)  # Debugging: Check if JSON data is received
+
     try:
-        name = request.form.get('name')
-        email = request.form.get('email')
-        subject = request.form.get('subject')
-        message = request.form.get('message')
-        
-        # Here you would typically send an email or store the contact form data
-        # For now, we'll just return a success message
-        return jsonify({'success': True, 'message': 'Thank you for your message. We will get back to you soon!'})
+        # Extract data from the JSON payload
+        name = request.json.get('name')
+        email = request.json.get('email')
+        subject = request.json.get('subject')
+        message = request.json.get('message')
+
+        if not name or not email or not message:
+            return jsonify({'error': 'Please fill out all fields'}), 400
+
+        # Create the email message
+        body = f"Name: {name}\nEmail: {email}\n\nSubject:{subject}\n\nMessage: {message}"
+
+        msg = Message(subject=subject,
+                      sender='salunkhesantosh787@gmail.com',
+                      recipients=['vighneshsalunkhe13@gmail.com'])
+        msg.body = body
+        mail.send(msg)
+
+        return jsonify({'message': 'Form submitted successfully! We will get back to you shortly.'}), 200
+
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        print(f"Error sending email: {str(e)}")
+        return jsonify({'error': 'Failed to submit form'}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000,debug=True)

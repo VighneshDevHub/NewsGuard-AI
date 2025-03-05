@@ -34,44 +34,27 @@ async function analyzeAuthenticity() {
         
         const result = await response.json();
         
-        // Update UI with the analysis results
+        // Update UI with the authenticity score
         if (analysisResults) {
-            // Update authenticity score
-            const scoreElement = document.getElementById('authenticity-score');
-            if (scoreElement) {
-                scoreElement.textContent = result.authenticity_score;
-            }
-
-            // Update key findings
-            const findingsList = document.getElementById('key-findings-list');
-            if (findingsList) {
-                findingsList.innerHTML = result.key_findings
-                    .map(finding => `<li>${finding}</li>`)
-                    .join('');
-            }
-
-            // Update differences
-            const differencesList = document.getElementById('differences-list');
-            if (differencesList) {
-                differencesList.innerHTML = result.differences
-                    .map(diff => `<li>${diff}</li>`)
-                    .join('');
-            }
-
-            // Update supporting evidence
-            const evidenceList = document.getElementById('evidence-list');
-            if (evidenceList) {
-                evidenceList.innerHTML = result.supporting_evidence
-                    .map(evidence => `
-                        <li>
-                            <blockquote>${evidence.quote}</blockquote>
-                            <cite>- ${evidence.source}</cite>
-                        </li>
-                    `).join('');
-            }
+            analysisResults.innerHTML = `
+                <div class="authenticity-score">
+                    <h3>Authenticity Score</h3>
+                    <div class="score-wrapper">
+                        <canvas id="score-chart" width="200" height="200"></canvas>
+                        <div class="score-number">${(result.score ?? 0).toFixed(1)}/10</div>
+                    </div>
+                </div>
+                <div class="analysis-details">
+                    <h3>Analysis Details</h3>
+                    <p>${result.explanation}</p>
+                </div>
+            `;
             
             // Show the results
             analysisResults.classList.remove('hidden');
+            
+            // Update score chart
+            updateScoreChart(result.score);
         }
     } catch (error) {
         console.error('Error:', error);

@@ -1,4 +1,6 @@
 flask==3.0.0
 requests==2.31.0
 beautifulsoup4==4.12.2
-trafilatura==1.6.1 
+trafilatura==1.6.1
+ollama==0.1.5
+flask-mail==0.9.1

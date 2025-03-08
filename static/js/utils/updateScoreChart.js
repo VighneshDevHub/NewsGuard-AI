@@ -1,49 +1,48 @@
 /**
  * Update the score chart with an authenticity score
- * @param {number} score - Authenticity score (0-10)
+ * @param {number} score - Authenticity score (0-100)
  */
 function updateScoreChart(score) {
-    const canvas = document.getElementById('score-chart');
-    if (!canvas) return;
+    const scorePath = document.getElementById('score-path');
+    const scoreElement = document.getElementById('authenticity-score');
     
-    const ctx = canvas.getContext('2d');
+    if (!scorePath) {
+        console.error('Score path element not found');
+        return;
+    }
     
-    // Normalize score to 0-100%
-    const normalizedScore = score / 10;
+    // Ensure score is a number between 0-100
+    const validScore = Math.max(0, Math.min(100, Number(score) || 0));
+    
+    // Calculate the circumference
+    const radius = 15.9155;
+    const circumference = 2 * Math.PI * radius;
+    
+    // Calculate the dash offset based on the score percentage
+    const dashOffset = circumference - (validScore / 100) * circumference;
+    
+    // Set the stroke-dasharray and stroke-dashoffset
+    scorePath.style.strokeDasharray = circumference;
+    scorePath.style.strokeDashoffset = dashOffset;
     
     // Choose color based on score
     let color;
-    if (score < 3) {
-        color = '#ff4d4d'; // Red for low scores
-    } else if (score < 7) {
-        color = '#ffad33'; // Orange for medium scores
+    if (validScore < 30) {
+        color = '#ef4444'; // Red for low scores
+    } else if (validScore < 70) {
+        color = '#f59e0b'; // Orange/yellow for medium scores
     } else {
-        color = '#4CAF50'; // Green for high scores
+        color = '#10b981'; // Green for high scores
     }
     
-    // Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Update the path color
+    scorePath.style.stroke = color;
     
-    // Draw background circle
-    ctx.beginPath();
-    ctx.arc(100, 100, 80, 0, 2 * Math.PI);
-    ctx.lineWidth = 15;
-    ctx.strokeStyle = '#eaeaea';
-    ctx.stroke();
-    
-    // Draw score arc
-    ctx.beginPath();
-    ctx.arc(100, 100, 80, -0.5 * Math.PI, (-0.5 + normalizedScore * 2) * Math.PI);
-    ctx.lineWidth = 15;
-    ctx.strokeStyle = color;
-    ctx.stroke();
-    
-    // Add label
-    ctx.font = 'bold 16px Arial';
-    ctx.fillStyle = '#333';
-    ctx.textAlign = 'center';
-    ctx.fillText('Authenticity', 100, 180);
+    // Update score text color to match
+    if (scoreElement) {
+        scoreElement.style.color = color;
+    }
 }
 
 // Export the function
-export default updateScoreChart; 
+export default updateScoreChart;

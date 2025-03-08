@@ -1,0 +1,42 @@
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: translateX(120%);
+    transition: transform 0.3s ease-in-out;
+    max-width: 400px;
+    min-width: 300px;
+    font-size: 16px;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification.success {
+    background-color: #4CAF50;
+    color: white;
+    border-left: 5px solid #388E3C;
+}
+
+.notification.error {
+    background-color: #f44336;
+    color: white;
+    border-left: 5px solid #d32f2f;
+}
+
+.notification i {
+    font-size: 20px;
+}
+
+.notification span {
+    flex: 1;
+    word-wrap: break-word;
+}

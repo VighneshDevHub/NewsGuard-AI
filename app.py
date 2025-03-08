@@ -49,9 +49,9 @@ def google_search(query):
         urls = [item['link'] for item in search_results['items']]
     
     return urls
-
 def extract_key_phrases_with_ollama(text):
     prompt = f"""
+
         Please extract 3 concise headlines from the following news article. 
         Make sure the headlines are clear and concise, focusing on the main facts and events,places,people,organizations,etc.
     I have this news article:\n\n{text}\n\n

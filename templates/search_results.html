@@ -87,21 +87,37 @@
             </div>
 
             <div class="analysis-details">
+              <!-- Key Findings Card -->
               <div class="analysis-card findings">
-                <h3><i class="fas fa-search"></i> Key Findings</h3>
-                <ul id="key-findings-list"></ul>
+                <h3>
+                  <i class="fas fa-search"></i>
+                  <span>Key Findings</span>
+                </h3>
+                <div class="card-content">
+                  <ul id="key-findings-list"></ul>
+                </div>
               </div>
 
+              <!-- Discrepancies Card -->
               <div class="analysis-card differences">
                 <h3>
-                  <i class="fas fa-exclamation-triangle"></i> Discrepancies
+                  <i class="fas fa-exclamation-triangle"></i>
+                  <span>Discrepancies</span>
                 </h3>
-                <ul id="differences-list"></ul>
+                <div class="card-content">
+                  <ul id="differences-list"></ul>
+                </div>
               </div>
 
+              <!-- Supporting Evidence Card -->
               <div class="analysis-card evidence">
-                <h3><i class="fas fa-check-circle"></i> Supporting Evidence</h3>
-                <ul id="evidence-list"></ul>
+                <h3>
+                  <i class="fas fa-check-circle"></i>
+                  <span>Supporting Evidence</span>
+                </h3>
+                <div class="card-content">
+                  <ul id="evidence-list"></ul>
+                </div>
               </div>
             </div>
           </div>
@@ -168,5 +184,6 @@
       type="module"
       src="{{ url_for('static', filename='js/search_results.js') }}"
     ></script>
+    <script src="{{ url_for('static', filename='components/js/NavBar.js') }}"></script>
   </body>
 </html>

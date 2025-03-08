@@ -36,25 +36,50 @@ async function analyzeAuthenticity() {
         
         // Update UI with the authenticity score
         if (analysisResults) {
-            analysisResults.innerHTML = `
-                <div class="authenticity-score">
-                    <h3>Authenticity Score</h3>
-                    <div class="score-wrapper">
-                        <canvas id="score-chart" width="200" height="200"></canvas>
-                        <div class="score-number">${(result.score ?? 0).toFixed(1)}/10</div>
-                    </div>
-                </div>
-                <div class="analysis-details">
-                    <h3>Analysis Details</h3>
-                    <p>${result.explanation}</p>
-                </div>
-            `;
+            // Update the score percentage
+            const scoreElement = document.getElementById('authenticity-score');
+            if (scoreElement) {
+                scoreElement.textContent = result.authenticity_score;
+            }
+            
+            // Update key findings list
+            const findingsList = document.getElementById('key-findings-list');
+            if (findingsList && result.key_findings) {
+                findingsList.innerHTML = '';
+                result.key_findings.forEach(finding => {
+                    const li = document.createElement('li');
+                    li.textContent = finding;
+                    findingsList.appendChild(li);
+                });
+            }
+            
+            // Update differences list
+            const differencesList = document.getElementById('differences-list');
+            if (differencesList && result.differences) {
+                differencesList.innerHTML = '';
+                result.differences.forEach(difference => {
+                    const li = document.createElement('li');
+                    li.textContent = difference;
+                    differencesList.appendChild(li);
+                });
+            }
+            
+            // Update evidence list
+            const evidenceList = document.getElementById('evidence-list');
+            if (evidenceList && result.supporting_evidence) {
+                evidenceList.innerHTML = '';
+                result.supporting_evidence.forEach(evidence => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<strong>"${evidence.quote}"</strong> - <em>${evidence.source}</em>`;
+                    evidenceList.appendChild(li);
+                });
+            }
             
             // Show the results
             analysisResults.classList.remove('hidden');
             
             // Update score chart
-            updateScoreChart(result.score);
+            updateScoreChart(result.authenticity_score);
         }
     } catch (error) {
         console.error('Error:', error);
@@ -69,4 +94,4 @@ async function analyzeAuthenticity() {
 }
 
 // Export the function
-export default analyzeAuthenticity; 
+export default analyzeAuthenticity;

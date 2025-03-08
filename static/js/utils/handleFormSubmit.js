@@ -52,4 +52,4 @@ async function handleFormSubmit(e) {
 import showNotification from './showNotification.js';
 
 // Export the function
-export default handleFormSubmit; 
+export default handleFormSubmit;

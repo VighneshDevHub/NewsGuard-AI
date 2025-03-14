@@ -17,10 +17,9 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = 'salunkhesantosh787@gmail.com'  # Your email here
-app.config['MAIL_PASSWORD'] = 'ohjq iqcn zrpt xpco'  # Your email password here
+app.config['MAIL_USERNAME'] = 'salunkhesantosh787@gmail.com' 
+app.config['MAIL_PASSWORD'] = 'ohjq iqcn zrpt xpco'  
 
-# Initialize the Mail instance
 mail = Mail(app)
 
 
@@ -51,9 +50,9 @@ def google_search(query):
     return urls
 def extract_key_phrases_with_ollama(text):
     prompt = f"""
-
+        You are a professional news analyst.
         Please extract 3 concise headlines from the following news article. 
-        Make sure the headlines are clear and concise, focusing on the main facts and events,places,people,organizations,etc.
+        Make sure that each headlines are clear and concise, focusing on the main facts and events,places,people,organizations,date-time,etc.
     I have this news article:\n\n{text}\n\n
     Please provide a response in pure JSON format():
     {{
@@ -155,7 +154,7 @@ def extract_article_content(url):
         return {
             'url': url,
             'title': title,
-            'content': content,  # Full content for display
+            'content': content,  
             'description': content[:300] + '...' if content else '',
             'source': source,
             'image_url': image_url
@@ -256,6 +255,7 @@ def analyze_authenticity(original_news, verified_articles):
 
     # Simplified prompt with clear instructions
     prompt = f"""
+    You are professional fact-checker and news analyst.
     Compare this news article against trusted sources and analyze its authenticity.
     
     Original News Article:
@@ -468,4 +468,3 @@ def submit_contact():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000,debug=True)
-

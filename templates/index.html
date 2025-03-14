@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NewsGuard AI - News Authentication</title>
 
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icon3.png') }}" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='images/icon3.png') }}"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
@@ -18,7 +22,6 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/styles.css') }}"
     />
-
   </head>
   <body>
     {% include 'components/navbar.html' %}
@@ -27,6 +30,7 @@
       <section class="hero" id="home">
         <div class="hero-container">
           <div class="hero-text">
+            <div class="hero-badge">AI-Powered News Verification</div>
             <h1>Your Shield Against Digital Deception</h1>
             <p class="hero-subtitle">
               Every day, millions of people fall victim to misleading news and
@@ -59,6 +63,10 @@
             </div>
 
             <div class="input-area">
+              <div class="input-label">
+                <i class="fas fa-newspaper"></i>
+                <span>Paste your article or news headline</span>
+              </div>
               <textarea
                 id="news-input"
                 placeholder="Paste your article here to verify..."

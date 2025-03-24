@@ -52,6 +52,7 @@ body {
   font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
+  word-spacing: 10px;
   background: linear-gradient(
     135deg,
     var(--text-light),

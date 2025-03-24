@@ -14,7 +14,8 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: bor
+  der-box;
 }
 
 body {
@@ -202,6 +203,7 @@ body {
   font-weight: 700;
   margin-bottom: 1.5rem;
   line-height: 1.2;
+  word-spacing: 10px;
   background: linear-gradient(
     135deg,
     var(--text-light),

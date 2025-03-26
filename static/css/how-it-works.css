@@ -73,7 +73,7 @@ body {
 }
 
 .section {
-  padding: 6rem 2rem;
+  padding: 3rem 2rem;
   background: var(--primary-dark);
   position: relative;
   max-width: 1200px;
@@ -90,6 +90,7 @@ body {
   font-size: 2.5rem;
   margin-bottom: 1rem;
   font-weight: 700;
+  margin-top: 2rem;
   background: linear-gradient(
     135deg,
     var(--text-light),
@@ -216,10 +217,10 @@ body {
 }
 
 .features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 3rem;
-  padding: 2rem;
+  display: flex;
+  gap: 1rem;
+  max-width: 1800px;
+  padding: 0rem;
   perspective: 1000px;
 }
 

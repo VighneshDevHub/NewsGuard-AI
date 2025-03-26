@@ -371,7 +371,7 @@ body {
 }
 
 .team-grid {
- display: flex;
+  display: flex;
   gap: 1rem;
   max-width: 1300px;
   margin: 3rem auto 0;

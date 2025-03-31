@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NewsGuard AI - Case Studies</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/shared.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Case Studies specific styles */
+      .hero-section {
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--primary)
+        );
+        padding: 8rem 2rem;
+        text-align: center;
+        margin-top: 64px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          circle at 50% 50%,
+          rgba(0, 163, 255, 0.15) 0%,
+          transparent 70%
+        );
+      }
+
+      .hero-section h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-section .subtitle {
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        opacity: 0.9;
+        position: relative;
+        z-index: 1;
+      }
+
+      .case-studies-section {
+        padding: 5rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .section-header h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--text-light);
+      }
+
+      .section-header p {
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 0 auto;
+        color: var(--text-secondary);
+      }
+
+      .case-study-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-bottom: 4rem;
+      }
+
+      .case-study-card {
+        background: var(--surface);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border);
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .case-study-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .case-study-image {
+        width: 100%;
+        height: 200px;
+        background-color: var(--primary-dark);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .case-study-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .case-study-card:hover .case-study-image img {
+        transform: scale(1.05);
+      }
+
+      .case-study-content {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .case-study-category {
+        display: inline-block;
+        background: var(--primary-dark);
+        color: var(--primary);
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        margin-bottom: 1rem;
+      }
+
+      .case-study-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--text-light);
+      }
+
+      .case-study-excerpt {
+        color: var(--text-secondary);
+        margin-bottom: 1.5rem;
+        flex-grow: 1;
+      }
+
+      .case-study-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-top: auto;
+      }
+
+      .case-study-date {
+        display: flex;
+        align-items: center;
+      }
+
+      .case-study-date i {
+        margin-right: 0.5rem;
+      }
+
+      .case-study-read-more {
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+      }
+
+      .case-study-read-more i {
+        margin-left: 0.5rem;
+        transition: transform 0.3s ease;
+      }
+
+      .case-study-read-more:hover {
+        color: var(--primary-light);
+      }
+
+      .case-study-read-more:hover i {
+        transform: translateX(3px);
+      }
+
+      .featured-case-study {
+        background: var(--surface);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border);
+        margin-bottom: 4rem;
+      }
+
+      .featured-case-study-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .featured-case-study-image {
+        height: 100%;
+        min-height: 400px;
+        background-color: var(--primary-dark);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .featured-case-study-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .featured-case-study-content {
+        padding: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .featured-label {
+        display: inline-block;
+        background: var(--primary);
+        color: white;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        margin-bottom: 1rem;
+      }
+
+      .featured-case-study-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: var(--text-light);
+      }
+
+      .featured-case-study-excerpt {
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+        line-height: 1.7;
+      }
+
+      .featured-case-study-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-top: auto;
+      }
+
+      .featured-case-study-button {
+        display: inline-block;
+        background: var(--primary);
+        color: white;
+        font-weight: 600;
+        padding: 0.8rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+        align-self: flex-start;
+      }
+
+      .featured-case-study-button:hover {
+        background: var(--primary-light);
+        transform: translateY(-2px);
+      }
+
+      .stats-section {
+        background: var(--primary-dark);
+        padding: 4rem 2rem;
+        margin-bottom: 4rem;
+        border-radius: 12px;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-label {
+        font-size: 1.1rem;
+        color: var(--text-light);
+      }
+
+      .testimonial-section {
+        margin-bottom: 4rem;
+      }
+
+      .testimonial-card {
+        background: var(--surface);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border);
+        margin-bottom: 2rem;
+      }
+
+      .testimonial-content {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: var(--text-light);
+        margin-bottom: 1.5rem;
+        position: relative;
+      }
+
+      .testimonial-content::before {
+        content: '"';
+        font-size: 4rem;
+        color: var(--primary);
+        opacity: 0.2;
+        position: absolute;
+        top: -1.5rem;
+        left: -1rem;
+      }
+
+      .testimonial-author {
+        display: flex;
+        align-items: center;
+      }
+
+      .testimonial-author-image {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 1rem;
+      }
+
+      .testimonial-author-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .testimonial-author-info h4 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-light);
+        margin-bottom: 0.2rem;
+      }
+
+      .testimonial-author-info p {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      .cta-section {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+
+      .cta-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--text-light);
+      }
+
+      .cta-section p {
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 0 auto 2rem;
+        color: var(--text-secondary);
+      }
+
+      @media (max-width: 768px) {
+        .featured-case-study-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .featured-case-study-image {
+          min-height: 250px;
+        }
+
+        .featured-case-study-content {
+          padding: 2rem;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'components/navbar.html' %}
+
+    <main>
+      <section class="hero-section">
+        <h1>Case Studies</h1>
+        <p class="subtitle">
+          Real-world examples of how NewsGuard AI is helping combat
+          misinformation
+        </p>
+      </section>
+
+      <section class="case-studies-section">
+        <div class="featured-case-study">
+          <div class="featured-case-study-grid">
+            <div class="featured-case-study-image">
+              <img
+                src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                alt="Newsroom using NewsGuard AI"
+              />
+            </div>
+            <div class="featured-case-study-content">
+              <span class="featured-label">Featured Case Study</span>
+              <h2 class="featured-case-study-title">
+                How The Daily Chronicle Reduced Misinformation by 73%
+              </h2>
+              <p class="featured-case-study-excerpt">
+                When The Daily Chronicle integrated NewsGuard AI into their
+                editorial workflow, they faced the challenge of verifying
+                information quickly in a 24-hour news cycle. Our technology
+                helped their team identify potentially misleading content before
+                publication, resulting in a 73% reduction in published
+                misinformation and a 45% increase in reader trust scores.
+              </p>
+              <a href="#" class="featured-case-study-button"
+                >Read Full Case Study</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <h2>Success Stories</h2>
+          <p>
+            Discover how organizations are using NewsGuard AI to verify
+            information and build trust
+          </p>
+        </div>
+
+        <div class="case-study-grid">
+          <div class="case-study-card">
+            <div class="case-study-image">
+              <img
+                src="https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                alt="University research team"
+              />
+            </div>
+            <div class="case-study-content">
+              <span class="case-study-category">Education</span>
+              <h3 class="case-study-title">Stanford Media Research Lab</h3>
+              <p class="case-study-excerpt">
+                How researchers at Stanford used NewsGuard AI to analyze 10,000+
+                articles during the 2023 election cycle, identifying key
+                patterns in misinformation spread.
+              </p>
+              <div class="case-study-meta">
+                <div class="case-study-date">
+                  <i class="far fa-calendar"></i>
+                  <span>March 15, 2024</span>
+                </div>
+                <a href="#" class="case-study-read-more"
+                  >Read More <i class="fas fa-arrow-right"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="case-study-card">
+            <div class="case-study-image">
+              <img
+                src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                alt="Business team meeting"
+              />
+            </div>
+            <div class="case-study-content">
+              <span class="case-study-category">Corporate</span>
+              <h3 class="case-study-title">Global Communications Inc.</h3>
+              <p class="case-study-excerpt">
+                How a Fortune 500 company protected its brand reputation by
+                implementing NewsGuard AI to monitor media mentions and verify
+                information accuracy.
+              </p>
+              <div class="case-study-meta">
+                <div class="case-study-date">
+                  <i class="far fa-calendar"></i>
+                  <span>February 8, 2024</span>
+                </div>
+                <a href="#" class="case-study-read-more"
+                  >Read More <i class="fas fa-arrow-right"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="case-study-card">
+            <div class="case-study-image">
+              <img
+                src="https://images.unsplash.com/photo-1551817958-d9d86fb29431?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                alt="Social media dashboard"
+              />
+            </div>
+            <div class="case-study-content">
+              <span class="case-study-category">Social Media</span>
+              <h3 class="case-study-title">ConnectSphere Platform</h3>
+              <p class="case-study-excerpt">
+                How a growing social media platform integrated NewsGuard AI's
+                API to automatically flag potentially misleading content,
+                improving user trust by 62%.
+              </p>
+              <div class="case-study-meta">
+                <div class="case-study-date">
+                  <i class="far fa-calendar"></i>
+                  <span>January 22, 2024</span>
+                </div>
+                <a href="#" class="case-study-read-more"
+                  >Read More <i class="fas fa-arrow-right"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-section">
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-number">500+</div>
+              <div class="stat-label">Organizations Using NewsGuard AI</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">10M+</div>
+              <div class="stat-label">Articles Analyzed</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">94%</div>
+              <div class="stat-label">Accuracy Rate</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">68%</div>
+              <div class="stat-label">Reduction in Misinformation</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <h2>Industry Applications</h2>
+          <p>How different sectors are leveraging NewsGuard AI technology</p>
+        </div>
+
+        <div class="case-study-grid">
+          <div class="case-study-card">
+            <div class="case-study-image">
+              <img
+                src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                alt="Journalism newsroom"
+              />
+            </div>
+            <div class="case-study-content">
+              <span class="case-study-category">Journalism</span>
+              <h3 class="case-study-title">Newsrooms & Media Organizations</h3>
+              <p class="case-study-excerpt">
+                How journalists are using NewsGuard AI to fact-check information
+                quickly and accurately in fast-paced news environments.
+              </p>
+              <div class="case-study-meta">
+                <div class="case-study-date">
+                  <i class="far fa-calendar"></i>
+                  <span>December 10, 2023</span>
+                </div>
+                <a href="#" class="case-study-read-more"
+                  >Read More <i class="fas fa-arrow-right"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="case-study-card">
+            <div class="case-study-image">
+              <img
+                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                alt="Educational setting"
+              />
+            </div>
+            <div class="case-study-content">
+              <span class="case-study-category">Education</span>
+              <h3 class="case-study-title">Schools & Universities</h3>
+              <p class="case-study-excerpt">
+                How educational institutions are teaching digital literacy and
+                critical thinking using NewsGuard AI as a learning tool.
+              </p>
+              <div class="case-study-meta">
+                <div class="case-study-date">
+                  <i class="far fa-calendar"></i>
+                  <span>November 5, 2023</span>
+                </div>
+                <a href="#" class="case-study-read-more"
+                  >Read More <i class="fas fa-arrow-right"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="case-study-card">
+            <div class="case-study-image">
+              <img
+                src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                alt="Government building"
+              />
+            </div>
+            <div class="case-study-content">
+              <span class="case-study-category">Government</span>
+              <h3 class="case-study-title">Public Sector Applications</h3>
+              <p class="case-study-excerpt">
+                How government agencies are using NewsGuard AI to monitor public
+                information channels and combat targeted misinformation
+                campaigns.
+              </p>
+              <div class="case-study-meta">
+                <div class="case-study-date">
+                  <i class="far fa-calendar"></i>
+                  <span>October 18, 2023</span>
+                </div>
+                <a href="#" class="case-study-read-more"
+                  >Read More <i class="fas fa-arrow-right"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <h2>Client Testimonials</h2>
+          <p>What our clients say about working with NewsGuard AI</p>
+        </div>
+
+        <div class="testimonial-section">
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              NewsGuard AI has transformed our editorial process. What used to
+              take our fact-checking team hours now takes minutes, and with even
+              greater accuracy. The detailed breakdown of authenticity scores
+              helps us understand exactly where information might be
+              questionable.
+            </div>
+            <div class="testimonial-author">
+              <div class="testimonial-author-image">
+                <img
+                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                  alt="Sarah Johnson"
+                />
+              </div>
+              <div class="testimonial-author-info">
+                <h4>Sarah Johnson</h4>
+                <p>Chief Editor, The Daily Chronicle</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              As a research institution, we need to process vast amounts of
+              information quickly without sacrificing accuracy. NewsGuard AI's
+              batch processing capabilities have been invaluable for our media
+              analysis projects, allowing us to identify patterns in
+              misinformation at scale.
+            </div>
+            <div class="testimonial-author">
+              <div class="testimonial-author-image">
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                  alt="Dr. Michael Chen"
+                />
+              </div>
+              <div class="testimonial-author-info">
+                <h4>Dr. Michael Chen</h4>
+                <p>Director, Stanford Media Research Lab</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta-section">
+          <h2>Ready to Combat Misinformation?</h2>
+          <p>
+            Join hundreds of organizations using NewsGuard AI to verify
+            information and build trust with their audiences
+          </p>
+          <a href="/contact" class="button button-primary">Contact Us Today</a>
+        </div>
+      </section>
+    </main>
+
+    {% include 'components/footer.html' %}
+    <script src="{{ url_for('static', filename='js/utils/NavBar.js') }}"></script>
+  </body>
+</html>

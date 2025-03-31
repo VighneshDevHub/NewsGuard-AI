@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NewsGuard AI - Documentation</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/shared.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Documentation-specific styles */
+      .hero-section {
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--primary)
+        );
+        padding: 8rem 2rem;
+        text-align: center;
+        margin-top: 64px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          circle at 50% 50%,
+          rgba(0, 163, 255, 0.15) 0%,
+          transparent 70%
+        );
+      }
+
+      .hero-section h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-section .subtitle {
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        opacity: 0.9;
+        position: relative;
+        z-index: 1;
+      }
+
+      .documentation-section {
+        padding: 5rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .section-header h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--text-light);
+      }
+
+      .section-header p {
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 0 auto;
+        color: var(--text-secondary);
+      }
+
+      .documentation-content {
+        background: var(--surface);
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border);
+      }
+
+      .documentation-content h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--text-light);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 0.5rem;
+      }
+
+      .documentation-content p {
+        margin-bottom: 1rem;
+        line-height: 1.7;
+      }
+
+      .documentation-content ul,
+      .documentation-content ol {
+        margin-bottom: 1rem;
+        padding-left: 2rem;
+      }
+
+      .documentation-content li {
+        margin-bottom: 0.5rem;
+      }
+
+      .documentation-content code {
+        background: var(--primary-dark);
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 0.9rem;
+      }
+
+      .documentation-content pre {
+        background: var(--primary-dark);
+        padding: 1rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin-bottom: 1rem;
+      }
+
+      .documentation-content pre code {
+        background: transparent;
+        padding: 0;
+      }
+
+      .documentation-content .note {
+        background: rgba(0, 163, 255, 0.1);
+        border-left: 4px solid var(--primary);
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .documentation-content .warning {
+        background: rgba(255, 165, 0, 0.1);
+        border-left: 4px solid orange;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .documentation-nav {
+        position: sticky;
+        top: 80px;
+        background: var(--surface);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border);
+      }
+
+      .documentation-nav h4 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: var(--text-light);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 0.5rem;
+      }
+
+      .documentation-nav ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .documentation-nav li {
+        margin-bottom: 0.5rem;
+      }
+
+      .documentation-nav a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        display: block;
+        padding: 0.5rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+      }
+
+      .documentation-nav a:hover {
+        background: var(--primary-dark);
+        color: var(--text-light);
+      }
+
+      .documentation-grid {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        gap: 2rem;
+      }
+
+      @media (max-width: 768px) {
+        .documentation-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .documentation-nav {
+          position: relative;
+          top: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'components/navbar.html' %}
+
+    <main>
+      <section class="hero-section">
+        <h1>Documentation</h1>
+        <p class="subtitle">
+          Comprehensive guides and resources for using NewsGuard AI effectively
+        </p>
+      </section>
+
+      <section class="documentation-section">
+        <div class="documentation-grid">
+          <div class="documentation-nav">
+            <h4>Table of Contents</h4>
+            <ul>
+              <li><a href="#getting-started">Getting Started</a></li>
+              <li><a href="#using-the-platform">Using the Platform</a></li>
+              <li><a href="#understanding-scores">Understanding Scores</a></li>
+              <li><a href="#advanced-features">Advanced Features</a></li>
+              <li><a href="#troubleshooting">Troubleshooting</a></li>
+              <li><a href="#api-reference">API Reference</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="documentation-content" id="getting-started">
+              <h3>Getting Started</h3>
+              <p>
+                Welcome to NewsGuard AI documentation! This guide will help you
+                understand how to use our platform to verify news articles and
+                identify potential misinformation.
+              </p>
+
+              <h4>What is NewsGuard AI?</h4>
+              <p>
+                NewsGuard AI is an advanced platform that uses artificial
+                intelligence to analyze news articles and determine their
+                authenticity. Our system evaluates content based on multiple
+                factors including factual accuracy, source credibility, and
+                contextual relevance.
+              </p>
+
+              <h4>Creating an Account</h4>
+              <p>To get started with NewsGuard AI:</p>
+              <ol>
+                <li>
+                  Visit the <a href="/">homepage</a> and click on "Sign Up"
+                </li>
+                <li>Enter your email address and create a password</li>
+                <li>Verify your email address through the confirmation link</li>
+                <li>Complete your profile information</li>
+              </ol>
+
+              <div class="note">
+                <strong>Note:</strong> Basic accounts are free and provide
+                access to essential verification features. Premium accounts
+                offer additional capabilities for journalists and organizations.
+              </div>
+            </div>
+
+            <div class="documentation-content" id="using-the-platform">
+              <h3>Using the Platform</h3>
+
+              <h4>Verifying a News Article</h4>
+              <p>To verify a news article:</p>
+              <ol>
+                <li>Copy the text of the article you want to verify</li>
+                <li>Paste it into the verification box on the homepage</li>
+                <li>Click "Verify Now" to begin the analysis process</li>
+                <li>
+                  Wait for the system to process the article (typically 10-15
+                  seconds)
+                </li>
+                <li>Review the authenticity analysis and detailed breakdown</li>
+              </ol>
+
+              <h4>Interpreting Results</h4>
+              <p>The verification results include:</p>
+              <ul>
+                <li>
+                  <strong>Authenticity Score:</strong> An overall rating from
+                  0-100
+                </li>
+                <li>
+                  <strong>Key Findings:</strong> Major observations about the
+                  article's accuracy
+                </li>
+                <li>
+                  <strong>Supporting Evidence:</strong> Quotes from trusted
+                  sources that support or contradict the article
+                </li>
+                <li>
+                  <strong>Score Breakdown:</strong> Detailed scores across
+                  multiple evaluation criteria
+                </li>
+              </ul>
+
+              <div class="warning">
+                <strong>Important:</strong> NewsGuard AI is designed to assist
+                in evaluating news, but should not be the sole determinant of an
+                article's credibility. Always use critical thinking skills and
+                consult multiple sources.
+              </div>
+            </div>
+
+            <div class="documentation-content" id="understanding-scores">
+              <h3>Understanding Scores</h3>
+
+              <p>NewsGuard AI evaluates articles across four key dimensions:</p>
+
+              <h4>Factual Accuracy (0-40 points)</h4>
+              <p>
+                Measures how well the article's claims align with verified facts
+                from trusted sources. Articles with higher factual accuracy
+                scores contain information that can be independently verified
+                through multiple reliable sources.
+              </p>
+
+              <h4>Source Consistency (0-30 points)</h4>
+              <p>
+                Evaluates how consistently the article's narrative aligns with
+                reporting from established news sources. Higher scores indicate
+                that the article's perspective is consistent with mainstream
+                reporting on the topic.
+              </p>
+
+              <h4>Detail Accuracy (0-20 points)</h4>
+              <p>
+                Assesses the precision of specific details mentioned in the
+                article, such as names, dates, locations, and statistics.
+                Articles with higher detail accuracy scores provide specific
+                information that matches verified data.
+              </p>
+
+              <h4>Contextual Relevance (0-10 points)</h4>
+              <p>
+                Measures how well the article places information in proper
+                context. Higher scores indicate that the article provides
+                appropriate background and avoids misleading framing of events.
+              </p>
+
+              <h4>Overall Authenticity Score</h4>
+              <p>
+                The combined score (0-100) represents the overall assessment of
+                the article's authenticity:
+              </p>
+              <ul>
+                <li>
+                  <strong>90-100:</strong> Highly Authentic - Very reliable
+                  information
+                </li>
+                <li>
+                  <strong>70-89:</strong> Mostly Authentic - Generally reliable
+                  with minor issues
+                </li>
+                <li>
+                  <strong>50-69:</strong> Somewhat Authentic - Contains a mix of
+                  accurate and questionable content
+                </li>
+                <li>
+                  <strong>30-49:</strong> Questionable - Contains significant
+                  inaccuracies or misleading information
+                </li>
+                <li>
+                  <strong>0-29:</strong> Likely Inauthentic - Contains major
+                  factual errors or fabricated content
+                </li>
+              </ul>
+            </div>
+
+            <div class="documentation-content" id="advanced-features">
+              <h3>Advanced Features</h3>
+
+              <h4>Batch Analysis</h4>
+              <p>
+                Premium users can analyze multiple articles simultaneously using
+                our batch processing feature:
+              </p>
+              <ol>
+                <li>
+                  Navigate to the "Batch Analysis" section in your dashboard
+                </li>
+                <li>Upload a CSV file containing article texts or URLs</li>
+                <li>Configure analysis parameters</li>
+                <li>Start the batch process</li>
+                <li>Download comprehensive results when complete</li>
+              </ol>
+
+              <h4>Custom Verification Rules</h4>
+              <p>
+                Organizations can define custom verification rules tailored to
+                their specific needs:
+              </p>
+              <ul>
+                <li>
+                  Adjust scoring weights for different evaluation criteria
+                </li>
+                <li>
+                  Define trusted source lists specific to your industry or topic
+                  area
+                </li>
+                <li>
+                  Create custom alert thresholds for potentially problematic
+                  content
+                </li>
+                <li>Generate organization-specific reporting templates</li>
+              </ul>
+
+              <h4>Integration Options</h4>
+              <p>
+                NewsGuard AI can be integrated with your existing systems
+                through our API. Common integration scenarios include:
+              </p>
+              <ul>
+                <li>Content management systems (CMS)</li>
+                <li>Social media monitoring tools</li>
+                <li>Research databases</li>
+                <li>Educational platforms</li>
+              </ul>
+              <p>
+                For detailed integration instructions, please refer to our
+                <a href="/api-access">API documentation</a>.
+              </p>
+            </div>
+
+            <div class="documentation-content" id="troubleshooting">
+              <h3>Troubleshooting</h3>
+
+              <h4>Common Issues</h4>
+
+              <p><strong>Issue: Analysis takes too long to complete</strong></p>
+              <p>
+                Solution: Try breaking down very long articles into smaller
+                sections. For articles over 5,000 words, our system may require
+                additional processing time. If the issue persists, try
+                refreshing the page and submitting again.
+              </p>
+
+              <p><strong>Issue: Low scores for accurate articles</strong></p>
+              <p>
+                Solution: Check if the article contains very recent information
+                that may not yet be widely reported by other sources. Our system
+                continuously updates its knowledge base, but there may be a
+                short delay for breaking news. You can also try providing
+                additional context in your submission.
+              </p>
+
+              <p><strong>Issue: Unable to access premium features</strong></p>
+              <p>
+                Solution: Verify that your account has an active premium
+                subscription. Navigate to Account Settings > Subscription to
+                check your current plan. If you believe there's an error, please
+                contact our support team.
+              </p>
+
+              <h4>Getting Support</h4>
+              <p>
+                If you encounter any issues not covered in this documentation:
+              </p>
+              <ul>
+                <li>
+                  Check our <a href="/faq">FAQ page</a> for answers to common
+                  questions
+                </li>
+                <li>
+                  Visit our community forum to see if others have experienced
+                  similar issues
+                </li>
+                <li>
+                  Contact our support team through the
+                  <a href="/contact">Contact page</a>
+                </li>
+              </ul>
+
+              <p>
+                Premium users have access to priority support with faster
+                response times.
+              </p>
+            </div>
+
+            <div class="documentation-content" id="api-reference">
+              <h3>API Reference</h3>
+
+              <p>
+                NewsGuard AI offers a comprehensive API for developers who want
+                to integrate our verification capabilities into their
+                applications. For detailed API documentation, please visit our
+                <a href="/api-access">API Access</a> page.
+              </p>
+
+              <p>The API provides endpoints for:</p>
+              <ul>
+                <li>Article verification</li>
+                <li>Source credibility checks</li>
+                <li>Historical analysis</li>
+                <li>Batch processing</li>
+              </ul>
+
+              <div class="note">
+                <strong>Note:</strong> API access requires an API key, which is
+                available to premium users. Rate limits apply based on your
+                subscription tier.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    {% include 'components/footer.html' %}
+    <script src="{{ url_for('static', filename='js/utils/NavBar.js') }}"></script>
+  </body>
+</html>

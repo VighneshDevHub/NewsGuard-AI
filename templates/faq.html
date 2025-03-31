@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NewsGuard AI - Frequently Asked Questions</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/faq.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    {% include 'components/navbar.html' %}
+
+    <main>
+      <section class="hero-section">
+        <h1>Frequently Asked Questions</h1>
+        <p class="subtitle">
+          Find answers to common questions about NewsGuard AI and our services
+        </p>
+      </section>
+
+      <section class="section faq-section">
+        <div class="section-header">
+          <h2>General Questions</h2>
+          <p>
+            Learn more about how NewsGuard AI works and how it can help you
+            verify news
+          </p>
+        </div>
+
+        <div class="faq-grid">
+          <div class="card faq-card">
+            <h3>What is NewsGuard AI?</h3>
+            <p>
+              NewsGuard AI is an advanced platform that uses artificial
+              intelligence to verify the authenticity of news articles. Our
+              system analyzes content, cross-references with trusted sources,
+              and provides a comprehensive authenticity score to help users
+              identify reliable information.
+            </p>
+          </div>
+
+          <div class="card faq-card">
+            <h3>How accurate is NewsGuard AI?</h3>
+            <p>
+              Our AI system has been trained on thousands of verified news
+              articles and continuously improves its accuracy. While no system
+              is perfect, NewsGuard AI typically achieves over 90% accuracy in
+              identifying misinformation and fake news when compared to human
+              fact-checkers.
+            </p>
+          </div>
+
+          <div class="card faq-card">
+            <h3>Is NewsGuard AI free to use?</h3>
+            <p>
+              Yes, the basic version of NewsGuard AI is free for individual
+              users. We also offer premium plans with additional features for
+              journalists, organizations, and educational institutions that
+              require more comprehensive analysis tools.
+            </p>
+          </div>
+
+          <div class="card faq-card">
+            <h3>How does NewsGuard AI analyze news articles?</h3>
+            <p>
+              Our system uses a multi-layered approach: First, it extracts key
+              information from the article. Then, it cross-references this
+              information with trusted sources. Finally, it evaluates factors
+              like factual accuracy, source consistency, detail accuracy, and
+              contextual relevance to generate an authenticity score.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section faq-section">
+        <div class="section-header">
+          <h2>Technical Questions</h2>
+          <p>Understand the technology behind our news verification system</p>
+        </div>
+
+        <div class="faq-grid">
+          <div class="card faq-card">
+            <h3>What AI models power NewsGuard AI?</h3>
+            <p>
+              NewsGuard AI uses a combination of large language models (LLMs)
+              and custom-trained neural networks specifically designed for news
+              content analysis. Our system incorporates natural language
+              processing, entity recognition, and sentiment analysis to evaluate
+              news authenticity.
+            </p>
+          </div>
+
+          <div class="card faq-card">
+            <h3>
+              Can NewsGuard AI analyze content in languages other than English?
+            </h3>
+            <p>
+              Currently, NewsGuard AI primarily supports English content, with
+              limited capabilities in Spanish and French. We're actively working
+              on expanding our language support to include more global languages
+              in future updates.
+            </p>
+          </div>
+
+          <div class="card faq-card">
+            <h3>How does NewsGuard AI handle paywalled content?</h3>
+            <p>
+              NewsGuard AI cannot directly analyze content behind paywalls.
+              However, it can still provide partial analysis based on publicly
+              available information about the article, including headlines,
+              excerpts, and metadata.
+            </p>
+          </div>
+
+          <div class="card faq-card">
+            <h3>Is there an API available for developers?</h3>
+            <p>
+              Yes, we offer a RESTful API for developers who want to integrate
+              NewsGuard AI's verification capabilities into their own
+              applications. Contact our team for API documentation and access
+              credentials.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section faq-section">
+        <div class="section-header">
+          <h2>Usage & Support</h2>
+          <p>
+            Get help with using NewsGuard AI and learn about our support options
+          </p>
+        </div>
+
+        <div class="faq-grid">
+          <div class="card faq-card">
+            <h3>How can I report an incorrect analysis?</h3>
+            <p>
+              If you believe our system has made an error in analyzing an
+              article, you can submit a review request through our contact form.
+              Our team will manually review the article and adjust our
+              algorithms if necessary.
+            </p>
+          </div>
+
+          <div class="card faq-card">
+            <h3>Do you offer educational resources about misinformation?</h3>
+            <p>
+              Yes, we provide educational resources about digital literacy,
+              fact-checking techniques, and recognizing misinformation. These
+              resources are available in our Resources section and are regularly
+              updated with new content.
+            </p>
+          </div>
+
+          <div class="card faq-card">
+            <h3>Can I use NewsGuard AI for research purposes?</h3>
+            <p>
+              Absolutely! NewsGuard AI is used by researchers, journalists, and
+              educators worldwide. For academic or large-scale research
+              projects, please contact us to discuss your specific needs and
+              potential collaboration opportunities.
+            </p>
+          </div>
+
+          <div class="card faq-card">
+            <h3>How can I get technical support?</h3>
+            <p>
+              For technical support, you can reach our team through the contact
+              form on our website. We typically respond within 24 hours during
+              business days. For urgent matters, premium users have access to
+              priority support channels.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section contact-cta-section">
+        <div class="contact-cta">
+          <h2>Still have questions?</h2>
+          <p>
+            Our team is here to help you with any additional questions or
+            concerns
+          </p>
+          <a href="/contact" class="button button-primary">Contact Us</a>
+        </div>
+      </section>
+    </main>
+
+    {% include 'components/footer.html' %}
+    <script
+      type="module"
+      src="{{ url_for('static', filename='js/faq.js') }}"
+    ></script>
+    <script src="{{ url_for('static', filename='js/utils/NavBar.js') }}"></script>
+  </body>
+</html>

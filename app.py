@@ -437,6 +437,38 @@ def contact():
         print(f"Error rendering contact page: {str(e)}")
         return redirect('/')
 
+@app.route('/faq')
+def faq():
+    try:
+        return render_template('faq.html', active_page='faq')
+    except Exception as e:
+        print(f"Error rendering FAQ page: {str(e)}")
+        return redirect('/')
+
+@app.route('/documentation')
+def documentation():
+    try:
+        return render_template('documentation.html', active_page='documentation')
+    except Exception as e:
+        print(f"Error rendering documentation page: {str(e)}")
+        return redirect('/')
+
+@app.route('/api-access')
+def api_access():
+    try:
+        return render_template('api-access.html', active_page='api-access')
+    except Exception as e:
+        print(f"Error rendering API access page: {str(e)}")
+        return redirect('/')
+
+@app.route('/case-studies')
+def case_studies():
+    try:
+        return render_template('case-studies.html', active_page='case-studies')
+    except Exception as e:
+        print(f"Error rendering case studies page: {str(e)}")
+        return redirect('/')
+
 @app.route('/submit-contact', methods=['POST'])
 def submit_contact():
     print(request.json)  # Debugging: Check if JSON data is received

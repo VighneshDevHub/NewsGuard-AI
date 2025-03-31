@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NewsGuard AI - API Access</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/shared.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* API Access page styles */
+      .hero-section {
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--primary)
+        );
+        padding: 8rem 2rem;
+        text-align: center;
+        margin-top: 64px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          circle at 50% 50%,
+          rgba(0, 163, 255, 0.15) 0%,
+          transparent 70%
+        );
+      }
+
+      .hero-section h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-section .subtitle {
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        opacity: 0.9;
+        position: relative;
+        z-index: 1;
+      }
+
+      .api-section {
+        padding: 5rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .section-header h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--text-light);
+      }
+
+      .section-header p {
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 0 auto;
+        color: var(--text-secondary);
+      }
+
+      .api-content {
+        background: var(--surface);
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border);
+      }
+
+      .api-content h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--text-light);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 0.5rem;
+      }
+
+      .api-content p {
+        margin-bottom: 1rem;
+        line-height: 1.7;
+      }
+
+      .api-content ul,
+      .api-content ol {
+        margin-bottom: 1rem;
+        padding-left: 2rem;
+      }
+
+      .api-content li {
+        margin-bottom: 0.5rem;
+      }
+
+      .api-content code {
+        background: var(--primary-dark);
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 0.9rem;
+      }
+
+      .api-content pre {
+        background: var(--primary-dark);
+        padding: 1rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin-bottom: 1rem;
+        font-family: monospace;
+      }
+
+      .api-content pre code {
+        background: transparent;
+        padding: 0;
+        display: block;
+        white-space: pre;
+      }
+
+      .api-content .note {
+        background: rgba(0, 163, 255, 0.1);
+        border-left: 4px solid var(--primary);
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .api-content .warning {
+        background: rgba(255, 165, 0, 0.1);
+        border-left: 4px solid orange;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .api-nav {
+        position: sticky;
+        top: 80px;
+        background: var(--surface);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border);
+      }
+
+      .api-nav h4 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: var(--text-light);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 0.5rem;
+      }
+
+      .api-nav ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .api-nav li {
+        margin-bottom: 0.5rem;
+      }
+
+      .api-nav a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        display: block;
+        padding: 0.5rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+      }
+
+      .api-nav a:hover {
+        background: var(--primary-dark);
+        color: var(--text-light);
+      }
+
+      .api-grid {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        gap: 2rem;
+      }
+
+      .endpoint {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .endpoint:last-child {
+        border-bottom: none;
+      }
+
+      .endpoint-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .endpoint-method {
+        font-weight: bold;
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        margin-right: 1rem;
+        font-size: 0.9rem;
+      }
+
+      .method-get {
+        background: #61affe;
+        color: #fff;
+      }
+
+      .method-post {
+        background: #49cc90;
+        color: #fff;
+      }
+
+      .method-put {
+        background: #fca130;
+        color: #fff;
+      }
+
+      .method-delete {
+        background: #f93e3e;
+        color: #fff;
+      }
+
+      .endpoint-path {
+        font-family: monospace;
+        font-size: 1.1rem;
+      }
+
+      .parameter-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1rem;
+      }
+
+      .parameter-table th,
+      .parameter-table td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .parameter-table th {
+        background: var(--primary-dark);
+        color: var(--text-light);
+      }
+
+      .parameter-required {
+        color: #f93e3e;
+        font-weight: bold;
+      }
+
+      .parameter-optional {
+        color: #999;
+      }
+
+      .response-example {
+        margin-top: 1rem;
+      }
+
+      .pricing-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 2rem;
+      }
+
+      .pricing-table th,
+      .pricing-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .pricing-table th {
+        background: var(--primary-dark);
+        color: var(--text-light);
+      }
+
+      .pricing-tier {
+        font-weight: bold;
+        color: var(--text-light);
+      }
+
+      .pricing-price {
+        font-weight: bold;
+        color: var(--primary);
+      }
+
+      .cta-container {
+        text-align: center;
+        margin-top: 3rem;
+      }
+
+      @media (max-width: 768px) {
+        .api-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .api-nav {
+          position: relative;
+          top: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'components/navbar.html' %}
+
+    <main>
+      <section class="hero-section">
+        <h1>API Access</h1>
+        <p class="subtitle">
+          Integrate NewsGuard AI's powerful verification capabilities into your
+          applications
+        </p>
+      </section>
+
+      <section class="api-section">
+        <div class="api-grid">
+          <div class="api-nav">
+            <h4>API Documentation</h4>
+            <ul>
+              <li><a href="#overview">Overview</a></li>
+              <li><a href="#authentication">Authentication</a></li>
+              <li><a href="#endpoints">API Endpoints</a></li>
+              <li><a href="#rate-limits">Rate Limits</a></li>
+              <li><a href="#error-handling">Error Handling</a></li>
+              <li><a href="#code-examples">Code Examples</a></li>
+              <li><a href="#pricing">Pricing</a></li>
+              <li><a href="#support">Support</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="api-content" id="overview">
+              <h3>API Overview</h3>
+              <p>
+                The NewsGuard AI API provides programmatic access to our news
+                verification technology, allowing developers to integrate
+                advanced authenticity analysis into their own applications,
+                platforms, and workflows.
+              </p>
+
+              <p>Our RESTful API enables you to:</p>
+              <ul>
+                <li>Verify the authenticity of news articles and content</li>
+                <li>Check the credibility of news sources</li>
+                <li>Analyze content for potential misinformation</li>
+                <li>Generate detailed authenticity reports</li>
+                <li>Process content in batch for efficient analysis</li>
+              </ul>
+
+              <p>
+                The API is designed for developers, data scientists,
+                researchers, and organizations who need to programmatically
+                assess the reliability of news content at scale.
+              </p>
+
+              <div class="note">
+                <strong>Base URL:</strong>
+                <code>https://api.newsguardai.com/v1</code>
+              </div>
+            </div>
+
+            <div class="api-content" id="authentication">
+              <h3>Authentication</h3>
+              <p>
+                All API requests require authentication using an API key. To
+                obtain an API key:
+              </p>
+              <ol>
+                <li>Sign up for a NewsGuard AI account</li>
+                <li>Subscribe to a plan that includes API access</li>
+                <li>Navigate to your account dashboard</li>
+                <li>Select "API Keys" from the menu</li>
+                <li>Generate a new API key</li>
+              </ol>
+
+              <p>Include your API key in the header of all requests:</p>
+
+              <pre><code>Authorization: Bearer YOUR_API_KEY</code></pre>
+
+              <div class="warning">
+                <strong>Security Notice:</strong> Keep your API key secure. Do
+                not expose it in client-side code or public repositories. If you
+                believe your API key has been compromised, regenerate it
+                immediately from your dashboard.
+              </div>
+            </div>
+
+            <div class="api-content" id="endpoints">
+              <h3>API Endpoints</h3>
+
+              <div class="endpoint">
+                <div class="endpoint-header">
+                  <span class="endpoint-method method-post">POST</span>
+                  <span class="endpoint-path">/analyze</span>
+                </div>
+                <p>Analyze a news article for authenticity</p>
+
+                <h4>Request Parameters</h4>
+                <table class="parameter-table">
+                  <thead>
+                    <tr>
+                      <th>Parameter</th>
+                      <th>Type</th>
+                      <th>Required</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>content</td>
+                      <td>string</td>
+                      <td class="parameter-required">Required</td>
+                      <td>The full text of the news article to analyze</td>
+                    </tr>
+                    <tr>
+                      <td>url</td>
+                      <td>string</td>
+                      <td class="parameter-optional">Optional</td>
+                      <td>
+                        URL of the original article (helps with source
+                        verification)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>title</td>
+                      <td>string</td>
+                      <td class="parameter-optional">Optional</td>
+                      <td>Title of the article</td>
+                    </tr>
+                    <tr>
+                      <td>detailed</td>
+                      <td>boolean</td>
+                      <td class="parameter-optional">Optional</td>
+                      <td>
+                        If true, returns a more detailed analysis (default:
+                        false)
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <h4>Response</h4>
+                <p>Returns an authenticity analysis of the provided content</p>
+
+                <div class="response-example">
+                  <h5>Example Response:</h5>
+                  <pre><code>{
+  "authenticity_score": 78,
+  "key_findings": [
+    "Content is generally accurate but contains minor inconsistencies",
+    "Sources are credible and properly cited"
+  ],
+  "differences": [
+    "Article claims 250 attendees while verified sources report 200-220"
+  ],
+  "supporting_evidence": [
+    {
+      "quote": "The event was held on Tuesday as reported",
+      "source": "Associated Press"
+    }
+  ],
+  "score_breakdown": {
+    "factual_accuracy": 32,
+    "source_consistency": 25,
+    "detail_accuracy": 15,
+    "context_accuracy": 6
+  }
+}</code></pre>
+                </div>
+              </div>
+
+              <div class="endpoint">
+                <div class="endpoint-header">
+                  <span class="endpoint-method method-post">POST</span>
+                  <span class="endpoint-path">/batch/analyze</span>
+                </div>
+                <p>Analyze multiple news articles in a single request</p>
+
+                <h4>Request Parameters</h4>
+                <table class="parameter-table">
+                  <thead>
+                    <tr>
+                      <th>Parameter</th>
+                      <th>Type</th>
+                      <th>Required</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>articles</td>
+                      <td>array</td>
+                      <td class="parameter-required">Required</td>
+                      <td>
+                        Array of article objects, each containing content and
+                        optional metadata
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>detailed</td>
+                      <td>boolean</td>
+                      <td class="parameter-optional">Optional</td>
+                      <td>
+                        If true, returns detailed analysis for each article
+                        (default: false)
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <h4>Response</h4>
+                <p>
+                  Returns an array of analysis results, one for each submitted
+                  article
+                </p>
+              </div>
+
+              <div class="endpoint">
+                <div class="endpoint-header">
+                  <span class="endpoint-method method-get">GET</span>
+                  <span class="endpoint-path">/source/{domain}</span>
+                </div>
+                <p>Get credibility information about a news source</p>
+
+                <h4>Path Parameters</h4>
+                <table class="parameter-table">
+                  <thead>
+                    <tr>
+                      <th>Parameter</th>
+                      <th>Type</th>
+                      <th>Required</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>domain</td>
+                      <td>string</td>
+                      <td class="parameter-required">Required</td>
+                      <td>
+                        Domain name of the news source (e.g., nytimes.com)
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <h4>Response</h4>
+                <p>
+                  Returns credibility information about the specified news
+                  source
+                </p>
+              </div>
+            </div>
+
+            <div class="api-content" id="rate-limits">
+              <h3>Rate Limits</h3>
+              <p>API rate limits vary based on your subscription tier:</p>
+
+              <table class="parameter-table">
+                <thead>
+                  <tr>
+                    <th>Plan</th>
+                    <th>Rate Limit</th>
+                    <th>Burst Limit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Developer</td>
+                    <td>100 requests/day</td>
+                    <td>10 requests/minute</td>
+                  </tr>
+                  <tr>
+                    <td>Professional</td>
+                    <td>1,000 requests/day</td>
+                    <td>60 requests/minute</td>
+                  </tr>
+                  <tr>
+                    <td>Enterprise</td>
+                    <td>Custom</td>
+                    <td>Custom</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <p>Rate limit information is included in the response headers:</p>
+              <ul>
+                <li>
+                  <code>X-RateLimit-Limit</code>: Your total request limit
+                </li>
+                <li>
+                  <code>X-RateLimit-Remaining</code>: Number of requests
+                  remaining
+                </li>
+                <li>
+                  <code>X-RateLimit-Reset</code>: Time when the limit resets
+                  (Unix timestamp)
+                </li>
+              </ul>
+
+              <div class="note">
+                <strong>Note:</strong> Batch API endpoints count each article in
+                the batch toward your rate limit. For example, analyzing 10
+                articles in a single batch request counts as 10 requests against
+                your limit.
+              </div>
+            </div>
+
+            <div class="api-content" id="error-handling">
+              <h3>Error Handling</h3>
+              <p>
+                The API uses standard HTTP status codes to indicate the success
+                or failure of requests:
+              </p>
+
+              <ul>
+                <li><strong>200 OK</strong>: Request succeeded</li>
+                <li>
+                  <strong>400 Bad Request</strong>: Invalid request parameters
+                </li>
+                <li>
+                  <strong>401 Unauthorized</strong>: Missing or invalid API key
+                </li>
+                <li>
+                  <strong>403 Forbidden</strong>: Valid API key but insufficient
+                  permissions
+                </li>
+                <li>
+                  <strong>429 Too Many Requests</strong>: Rate limit exceeded
+                </li>
+                <li>
+                  <strong>500 Internal Server Error</strong>: Server-side error
+                </li>
+              </ul>
+
+              <p>Error responses include a JSON object with details:</p>
+
+              <pre><code>{
+  "error": {
+    "code": "rate_limit_exceeded",
+    "message": "You have exceeded your rate limit. Please try again later.",
+    "details": {
+      "reset_at": 1623456789
+    }
+  }
+}</code></pre>
+            </div>
+
+            <div class="api-content" id="code-examples">
+              <h3>Code Examples</h3>
+
+              <h4>Python Example</h4>
+              <pre><code>import requests
+import json
+
+API_KEY = "your_api_key_here"
+API_URL = "https://api.newsguardai.com/v1/analyze"
+
+headers = {
+    "Authorization": f"Bearer {API_KEY}",
+    "Content-Type": "application/json"
+}
+
+data = {
+    "content": "The full text of the news article to analyze...",
+    "url": "https://example.com/article",
+    "title": "Example Article Title",
+    "detailed": True
+}
+
+response = requests.post(API_URL, headers=headers, data=json.dumps(data))
+
+if response.status_code == 200:
+    result = response.json()
+    print(f"Authenticity Score: {result['authenticity_score']}")
+    print("Key Findings:")
+    for finding in result['key_findings']:
+        print(f"- {finding}")
+else:
+    print(f"Error: {response.status_code}")
+    print(response.json())</code></pre>
+
+              <h4>JavaScript Example</h4>
+              <pre><code>const API_KEY = 'your_api_key_here';
+const API_URL = 'https://api.newsguardai.com/v1/analyze';
+
+async function analyzeArticle(articleContent) {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        content: articleContent,
+        detailed: true
+      })
+    });
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`);
+    }
+    
+    const result = await response.json();
+    console.log(`Authenticity Score: ${result.authenticity_score}`);
+    console.log('Key Findings:', result.key_findings);
+    return result;
+  } catch (error) {
+    console.error('Error analyzing article:', error);
+  }
+}
+
+// Example usage
+analyzeArticle('The full text of the news article to analyze...');</code></pre>
+            </div>
+
+            <div class="api-content" id="pricing">
+              <h3>API Pricing</h3>
+              <p>
+                NewsGuard AI offers several API subscription tiers to meet
+                different needs and usage volumes:
+              </p>
+
+              <table class="pricing-table">
+                <thead>
+                  <tr>
+                    <th>Plan</th>
+                    <th>Price</th>
+                    <th>Requests</th>
+                    <th>Features</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="pricing-tier">Developer</td>
+                    <td class="pricing-price">$99/month</td>
+                    <td>3,000/month</td>
+                    <td>
+                      <ul>
+                        <li>Basic authenticity analysis</li>
+                        <li>Source credibility checks</li>
+                        <li>Standard support</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="pricing-tier">Professional</td>
+                    <td class="pricing-price">$299/month</td>
+                    <td>30,000/month</td>
+                    <td>
+                      <ul>
+                        <li>Advanced authenticity analysis</li>
+                        <li>Batch processing</li>
+                        <li>Detailed reports</li>
+                        <li>Priority support</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="pricing-tier">Enterprise</td>
+                    <td class="pricing-price">Custom</td>
+                    <td>Custom</td>
+                    <td>
+                      <ul>
+                        <li>All Professional features</li>
+                        <li>Custom integration support</li>
+                        <li>Dedicated account manager</li>
+                        <li>SLA guarantees</li>
+                        <li>On-premise deployment options</li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <p>
+                For Enterprise plans or custom requirements, please
+                <a href="/contact">contact our sales team</a> for a personalized
+                quote.
+              </p>
+
+              <div class="cta-container">
+                <a href="/contact" class="button button-primary"
+                  >Get API Access</a
+                >
+              </div>
+            </div>
+
+            <div class="api-content" id="support">
+              <h3>API Support</h3>
+              <p>
+                We offer several resources to help you successfully integrate
+                with our API:
+              </p>
+
+              <ul>
+                <li>
+                  <strong>Developer Forum:</strong> Connect with other
+                  developers and get answers to common questions
+                </li>
+                <li>
+                  <strong>API Status Page:</strong> Check the current
+                  operational status of our API services
+                </li>
+                <li>
+                  <strong>Email Support:</strong> Contact our technical support
+                  team for assistance
+                </li>
+                <li>
+                  <strong>Office Hours:</strong> Schedule a call with our API
+                  specialists (Enterprise customers)
+                </li>
+              </ul>
+
+              <p>
+                For technical support inquiries, please email
+                <a href="mailto:api-support@newsguardai.com"
+                  >api-support@newsguardai.com</a
+                >
+                or use our <a href="/contact">contact form</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    {% include 'components/footer.html' %}
+    <script src="{{ url_for('static', filename='js/utils/NavBar.js') }}"></script>
+  </body>
+</html>

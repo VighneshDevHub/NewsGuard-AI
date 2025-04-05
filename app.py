@@ -7,26 +7,20 @@ import trafilatura
 from urllib.parse import urlparse
 from datetime import datetime
 from flask_mail import Mail, Message
-
+from config import Config  #
 
 # Create the Flask app
 app = Flask(__name__)
 
-# Initialize Flask-Mail
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = 'salunkhesantosh787@gmail.com' 
-app.config['MAIL_PASSWORD'] = 'ohjq iqcn zrpt xpco'  
+# Load configuration from Config class
+app.config.from_object(Config)
 
+# Initialize Flask-Mail
 mail = Mail(app)
 
-
-
 # Google Custom Search setup
-API_KEY = "AIzaSyB2nlYuSgnoKLBKC4aF2nfF2drE3ZWIMNk"
-CSE_ID = "15c198a8769a045ec"
+API_KEY = Config.GOOGLE_API_KEY
+CSE_ID = Config.GOOGLE_CSE_ID
 
 def google_search(query):
     url = f"https://www.googleapis.com/customsearch/v1"

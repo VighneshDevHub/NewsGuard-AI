@@ -7,7 +7,7 @@ import trafilatura
 from urllib.parse import urlparse
 from datetime import datetime
 from flask_mail import Mail, Message
-from config import Config  #
+from config import Config  
 
 # Create the Flask app
 app = Flask(__name__)

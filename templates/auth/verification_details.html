@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verification Details - NewsGuard AI</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/shared.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      .verification-container {
+        max-width: 800px;
+        margin: 80px auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        transition: all 0.3s ease;
+      }
+
+      .verification-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #f0f0f0;
+        position: relative;
+      }
+
+      .verification-header::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 80px;
+        height: 2px;
+        background-color: #4285f4;
+      }
+
+      .verification-header h1 {
+        color: #222;
+        font-size: 26px;
+        margin: 0;
+        font-weight: 600;
+      }
+
+      .back-link {
+        color: #4285f4;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding: 8px 15px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        background-color: rgba(66, 133, 244, 0.1);
+      }
+
+      .back-link:hover {
+        background-color: rgba(66, 133, 244, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .back-link i {
+        margin-right: 8px;
+      }
+
+      .score-card {
+        background: linear-gradient(145deg, #f8f9fa, #ffffff);
+        padding: 30px;
+        border-radius: 12px;
+        margin-bottom: 35px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid #f0f0f0;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .score-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #4285f4, #34a853, #fbbc05, #ea4335);
+      }
+
+      .score-value {
+        font-size: 64px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        line-height: 1;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+        position: relative;
+      }
+
+      .score-high {
+        color: #28a745;
+      }
+
+      .score-high::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: #28a745;
+        border-radius: 3px;
+      }
+
+      .score-medium {
+        color: #ffc107;
+      }
+
+      .score-medium::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: #ffc107;
+        border-radius: 3px;
+      }
+
+      .score-low {
+        color: #dc3545;
+      }
+
+      .score-low::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: #dc3545;
+        border-radius: 3px;
+      }
+
+      .score-label {
+        font-size: 18px;
+        font-weight: 500;
+        color: #444;
+        margin-top: 10px;
+        letter-spacing: 0.5px;
+      }
+
+      .verification-details {
+        margin-bottom: 30px;
+      }
+
+      .detail-section {
+        margin-bottom: 35px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        border: 1px solid #f0f0f0;
+        transition: all 0.3s ease;
+      }
+
+      .detail-section:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      .detail-section h2 {
+        font-size: 22px;
+        color: #222;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #f0f0f0;
+        font-weight: 600;
+        position: relative;
+        display: inline-block;
+      }
+
+      .detail-section h2::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 60px;
+        height: 2px;
+        background-color: #4285f4;
+      }
+
+      .detail-section p {
+        color: #444;
+        line-height: 1.7;
+        font-size: 16px;
+      }
+
+      .detail-section ul {
+        padding-left: 0;
+        margin-bottom: 20px;
+        list-style-type: none;
+      }
+
+      .detail-section li {
+        color: #333;
+        line-height: 1.7;
+        margin-bottom: 15px;
+        background-color: #f8f9fa;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        font-size: 16px;
+        border-left: 4px solid #4285f4;
+        transition: all 0.3s ease;
+      }
+
+      .detail-section li:hover {
+        transform: translateX(5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .detail-section pre {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        color: #333;
+        font-size: 15px;
+        border: 1px solid #e0e0e0;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        line-height: 1.6;
+        margin-top: 10px;
+      }
+
+      .metadata {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        background: linear-gradient(145deg, #f8f9fa, #ffffff);
+        padding: 25px;
+        border-radius: 10px;
+        margin-top: 40px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        border: 1px solid #f0f0f0;
+      }
+
+      .metadata-item {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+        flex: 1 0 30%;
+        padding: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .metadata-item:hover {
+        transform: translateY(-3px);
+      }
+
+      .metadata-label {
+        font-size: 14px;
+        color: #4285f4;
+        margin-bottom: 8px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .metadata-value {
+        font-size: 16px;
+        color: #333;
+        background-color: #ffffff;
+        padding: 10px 15px;
+        border-radius: 6px;
+        display: block;
+        margin-top: 5px;
+        border: 1px solid #f0f0f0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+      }
+
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+      }
+
+      .metric-card {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border: 1px solid #f0f0f0;
+        transition: all 0.3s ease;
+      }
+
+      .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+      }
+
+      .metric-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .metric-icon {
+        margin-right: 12px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: white;
+        font-size: 14px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+      }
+
+      .metric-title {
+        font-size: 17px;
+        font-weight: 600;
+        color: #222;
+        letter-spacing: 0.3px;
+      }
+
+      .metric-value {
+        font-size: 28px;
+        font-weight: bold;
+        margin: 10px 0;
+        color: #333;
+      }
+
+      .metric-description {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.5;
+        background-color: #f8f9fa;
+        padding: 8px 12px;
+        border-radius: 6px;
+        margin-top: 5px;
+      }
+
+      .high-confidence {
+        background-color: #28a745;
+      }
+
+      .medium-confidence {
+        background-color: #ffc107;
+      }
+
+      .low-confidence {
+        background-color: #dc3545;
+      }
+
+      .timeline {
+        position: relative;
+        margin: 35px 0;
+        padding-left: 40px;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(to bottom, #4285f4, #34a853);
+        border-radius: 3px;
+      }
+
+      .timeline-item {
+        position: relative;
+        margin-bottom: 30px;
+        transition: all 0.3s ease;
+      }
+      
+      .timeline-item:hover {
+        transform: translateX(5px);
+      }
+
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -40px;
+        top: 0;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-color: #4285f4;
+        border: 3px solid #ffffff;
+        box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.3);
+        z-index: 1;
+      }
+
+      .timeline-date {
+        font-size: 14px;
+        color: #4285f4;
+        margin-bottom: 8px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+      }
+
+      .timeline-content {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border: 1px solid #f0f0f0;
+        transition: all 0.3s ease;
+      }
+      
+      .timeline-content:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+      }
+
+      .timeline-title {
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #222;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+      }
+
+      .timeline-description {
+        font-size: 15px;
+        color: #444;
+        line-height: 1.6;
+        background-color: #f8f9fa;
+        padding: 12px 15px;
+        border-radius: 6px;
+        margin-top: 10px;
+        border-left: 3px solid #4285f4;
+      }
+
+      .related-verifications {
+        margin-top: 40px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        border: 1px solid #f0f0f0;
+      }
+
+      .related-title {
+        font-size: 22px;
+        color: #222;
+        margin-bottom: 20px;
+        font-weight: 600;
+        position: relative;
+        display: inline-block;
+        padding-bottom: 10px;
+      }
+      
+      .related-title::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 2px;
+        background-color: #4285f4;
+      }
+
+      .related-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .related-item {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        border: 1px solid #f0f0f0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .related-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+      
+      .related-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .related-score {
+        font-size: 22px;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 6px;
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .related-date {
+        font-size: 14px;
+        color: #555;
+        display: flex;
+        align-items: center;
+      }
+
+      .related-excerpt {
+        font-size: 15px;
+        color: #333;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.6;
+        margin: 10px 0;
+        font-weight: 400;
+        flex-grow: 1;
+        background-color: #f8f9fa;
+        padding: 12px 15px;
+        border-radius: 6px;
+      }
+      
+      .related-view-more {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-top: 10px;
+        color: #4285f4;
+        font-weight: 500;
+        font-size: 14px;
+      }
+      
+      .related-view-more i {
+        margin-left: 5px;
+        transition: transform 0.3s ease;
+      }
+      
+      .related-item:hover .related-view-more i {
+        transform: translateX(5px);
+      }
+
+      .action-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+        margin-top: 30px;
+      }
+
+      .verification-process {
+        margin: 40px 0;
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        border: 1px solid #f0f0f0;
+      }
+
+      .process-title {
+        font-size: 20px;
+        color: #222;
+        margin-bottom: 20px;
+        font-weight: 600;
+        position: relative;
+        display: inline-block;
+        padding-bottom: 10px;
+      }
+
+      .process-title::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background-color: #4285f4;
+      }
+
+      .process-steps {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        margin-bottom: 30px;
+      }
+
+      .process-steps::before {
+        content: "";
+        position: absolute;
+        top: 15px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #4285f4, #34a853, #fbbc05, #ea4335);
+        border-radius: 3px;
+        z-index: 1;
+        opacity: 0.7;
+      }
+
+      .process-step {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 20%;
+        transition: all 0.3s ease;
+      }
+      
+      .process-step:hover {
+        transform: translateY(-5px);
+      }
+
+      .step-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: #4285f4;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+        box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+        transition: all 0.3s ease;
+        border: 2px solid white;
+      }
+      
+      .process-step:hover .step-icon {
+        transform: scale(1.1);
+      }
+
+      .step-complete {
+        background-color: #28a745;
+        box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+      }
+
+      .step-label {
+        font-size: 14px;
+        color: #444;
+        text-align: center;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+      
+      .process-step:hover .step-label {
+        color: #4285f4;
+      }
+
+      .action-btn {
+        padding: 10px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .action-btn i {
+        margin-right: 8px;
+      }
+
+      .primary-btn {
+        background-color: #4285f4;
+        color: white;
+        border: none;
+      }
+
+      .primary-btn:hover {
+        background-color: #3367d6;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+      }
+
+      .secondary-btn {
+        background-color: #f8f9fa;
+        color: #333;
+        border: 1px solid #e0e0e0;
+      }
+
+      .secondary-btn:hover {
+        background-color: #e9ecef;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Add animation classes to elements when they come into view
+        const animateOnScroll = function() {
+          const elements = document.querySelectorAll('.detail-section, .metrics-grid, .timeline-item, .related-item');
+          
+          elements.forEach(element => {
+            const elementTop = element.getBoundingClientRect().top;
+            const elementBottom = element.getBoundingClientRect().bottom;
+            
+            if (elementTop < window.innerHeight - 100 && elementBottom > 0) {
+              element.classList.add('animate-in');
+            }
+          });
+        };
+        
+        // Run on page load
+        animateOnScroll();
+        
+        // Run on scroll
+        window.addEventListener('scroll', animateOnScroll);
+        
+        // Add hover effects to evidence items
+        const evidenceItems = document.querySelectorAll('.evidence-item');
+        evidenceItems.forEach(item => {
+          item.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateX(5px)';
+            this.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.12)';
+          });
+          
+          item.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateX(0)';
+            this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    {% include 'components/navbar.html' %}
+
+    <div class="verification-container">
+      <div class="verification-header">
+        <h1>Verification Details</h1>
+        <a href="{{ url_for('auth.dashboard') }}" class="back-link">
+          <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+      </div>
+
+      <div class="score-card">
+        {% if verification.authenticity_score >= 70 %}
+        <div class="score-value score-high">
+          {{ verification.authenticity_score }}%
+        </div>
+        <div class="score-label">High Authenticity</div>
+        {% elif verification.authenticity_score >= 40 %}
+        <div class="score-value score-medium">
+          {{ verification.authenticity_score }}%
+        </div>
+        <div class="score-label">Medium Authenticity</div>
+        {% else %}
+        <div class="score-value score-low">
+          {{ verification.authenticity_score }}%
+        </div>
+        <div class="score-label">Low Authenticity</div>
+        {% endif %}
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-header">
+            <div
+              class="metric-icon {% if verification.authenticity_score >= 70 %}high-confidence{% elif verification.authenticity_score >= 40 %}medium-confidence{% else %}low-confidence{% endif %}"
+            >
+              <i class="fas fa-check"></i>
+            </div>
+            <div class="metric-title">Overall Authenticity</div>
+          </div>
+          <div class="metric-value">{{ verification.authenticity_score }}%</div>
+          <div class="metric-description">
+            Composite score based on factual accuracy, source consistency,
+            detail accuracy, and context accuracy
+          </div>
+        </div>
+
+        {% set score_breakdown = verification.get_score_breakdown() %}
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <div
+              class="metric-icon {% if score_breakdown.factual_accuracy >= 30 %}high-confidence{% elif score_breakdown.factual_accuracy >= 15 %}medium-confidence{% else %}low-confidence{% endif %}"
+            >
+              <i class="fas fa-balance-scale"></i>
+            </div>
+            <div class="metric-title">Factual Accuracy</div>
+          </div>
+          <div class="metric-value">
+            {{ score_breakdown.factual_accuracy }}/40
+          </div>
+          <div class="metric-description">
+            Assessment of factual claims against verified sources
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <div
+              class="metric-icon {% if score_breakdown.source_consistency >= 20 %}high-confidence{% elif score_breakdown.source_consistency >= 10 %}medium-confidence{% else %}low-confidence{% endif %}"
+            >
+              <i class="fas fa-newspaper"></i>
+            </div>
+            <div class="metric-title">Source Consistency</div>
+          </div>
+          <div class="metric-value">
+            {{ score_breakdown.source_consistency }}/30
+          </div>
+          <div class="metric-description">
+            Evaluation of consistency across multiple sources
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <div
+              class="metric-icon {% if score_breakdown.detail_accuracy >= 15 %}high-confidence{% elif score_breakdown.detail_accuracy >= 8 %}medium-confidence{% else %}low-confidence{% endif %}"
+            >
+              <i class="fas fa-search"></i>
+            </div>
+            <div class="metric-title">Detail Accuracy</div>
+          </div>
+          <div class="metric-value">
+            {{ score_breakdown.detail_accuracy }}/20
+          </div>
+          <div class="metric-description">
+            Precision of specific details compared to verified sources
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <div
+              class="metric-icon {% if score_breakdown.context_accuracy >= 7 %}high-confidence{% elif score_breakdown.context_accuracy >= 4 %}medium-confidence{% else %}low-confidence{% endif %}"
+            >
+              <i class="fas fa-sitemap"></i>
+            </div>
+            <div class="metric-title">Context Accuracy</div>
+          </div>
+          <div class="metric-value">
+            {{ score_breakdown.context_accuracy }}/10
+          </div>
+          <div class="metric-description">
+            Accuracy of contextual information and background
+          </div>
+        </div>
+      </div>
+
+      <div class="verification-details">
+        <div class="detail-section">
+          <h2>Original Text</h2>
+          <pre>{{ verification.original_text }}</pre>
+        </div>
+
+        <div class="detail-section">
+          <h2>Key Findings</h2>
+          <ul>
+            {% for finding in verification.get_key_findings() %}
+            <li>
+              <div style="display: flex; align-items: flex-start;">
+                <i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px; margin-top: 3px; font-size: 18px;"></i>
+                <span>{{ finding }}</span>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="detail-section">
+          <h2>Differences Identified</h2>
+          <ul>
+            {% for difference in verification.get_differences() %}
+            <li>
+              <div style="display: flex; align-items: flex-start;">
+                <i class="fas fa-exclamation-triangle" style="color: #ffc107; margin-right: 10px; margin-top: 3px; font-size: 18px;"></i>
+                <span>{{ difference }}</span>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="detail-section">
+          <h2>Supporting Evidence</h2>
+          {% for evidence in verification.get_supporting_evidence() %}
+          <div class="evidence-item" style="
+              margin-bottom: 25px;
+              padding: 20px;
+              background-color: #ffffff;
+              border-radius: 10px;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+              border-left: 4px solid #4285f4;
+              transition: all 0.3s ease;
+            ">
+            <blockquote style="
+                font-style: italic;
+                margin: 0 0 15px 0;
+                padding: 15px 20px;
+                border-left: 4px solid #4285f4;
+                background-color: rgba(66, 133, 244, 0.08);
+                color: #333;
+                font-size: 16px;
+                line-height: 1.6;
+                border-radius: 6px;
+              ">
+              "{{ evidence.quote }}"
+            </blockquote>
+            <div style="
+                text-align: right;
+                font-size: 15px;
+                color: #444;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+              ">
+              <i class="fas fa-quote-right" style="margin-right: 8px; color: #4285f4;"></i>
+              — {{ evidence.source }}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        {% if verification.analysis_results %}
+        <div class="detail-section">
+          <h2>Analysis Results</h2>
+          <pre>{{ verification.analysis_results }}</pre>
+        </div>
+        {% endif %} {% if verification.ai_detection %}
+        <div class="detail-section">
+          <h2>AI Detection Analysis</h2>
+          <p>{{ verification.ai_detection }}</p>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-date">
+                <i class="fas fa-calendar-alt" style="margin-right: 5px; color: #4285f4;"></i>
+                {{ verification.verified_at.strftime('%Y-%m-%d %H:%M') }}
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-title">
+                  <i class="fas fa-robot" style="margin-right: 8px; color: #4285f4;"></i>
+                  Initial AI Pattern Analysis
+                </div>
+                <div class="timeline-description">
+                  {{ verification.ai_detection_details|default('Analysis of text patterns consistent with AI generation, including repetition, phrasing, and structural elements.') }}
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">
+                <i class="fas fa-calendar-alt" style="margin-right: 5px; color: #4285f4;"></i>
+                {{ verification.verified_at.strftime('%Y-%m-%d %H:%M') }}
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-title">
+                  <i class="fas fa-brain" style="margin-right: 8px; color: #4285f4;"></i>
+                  Language Model Comparison
+                </div>
+                <div class="timeline-description">
+                  {{ verification.ai_model_comparison|default('Comparison against known AI language model outputs and writing patterns.') }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %} {% if verification.factual_accuracy %}
+        <div class="detail-section">
+          <h2>Factual Accuracy Assessment</h2>
+          <p>{{ verification.factual_accuracy }}</p>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-date">
+                {{ verification.verified_at.strftime('%Y-%m-%d %H:%M') }}
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-title">Claim Verification</div>
+                <div class="timeline-description">
+                  {{ verification.claim_verification|default('Verification of
+                  factual claims against trusted sources and databases.') }}
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">
+                {{ verification.verified_at.strftime('%Y-%m-%d %H:%M') }}
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-title">Source Cross-Reference</div>
+                <div class="timeline-description">
+                  {{
+                  verification.source_cross_reference|default('Cross-referencing
+                  with multiple independent sources to confirm accuracy.') }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %} {% if verification.source_analysis %}
+        <div class="detail-section">
+          <h2>Source Analysis</h2>
+          <p>{{ verification.source_analysis }}</p>
+        </div>
+        {% endif %}
+      </div>
+
+      {% if verification.related_verifications %}
+      <div class="related-verifications">
+        <h2 class="related-title">Related Verifications</h2>
+        <div class="related-list">
+          {% for related in verification.related_verifications %}
+          <a
+            href="{{ url_for('auth.verification_details', verification_id=related.id) }}"
+            class="related-item"
+          >
+            <div class="related-item-header">
+              <div
+                class="related-score {% if related.authenticity_score >= 70 %}score-high{% elif related.authenticity_score >= 40 %}score-medium{% else %}score-low{% endif %}"
+              >
+                {{ related.authenticity_score }}%
+              </div>
+              <div class="related-date">
+                <i class="fas fa-calendar-day" style="margin-right: 5px;"></i>
+                {{ related.verified_at.strftime('%Y-%m-%d') }}
+              </div>
+            </div>
+            <div class="related-excerpt">
+              {{ related.original_text|truncate(100) }}
+            </div>
+            <div class="related-view-more">
+              <span>View Details</span>
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="metadata">
+        <div class="metadata-item">
+          <span class="metadata-label">Verification ID</span>
+          <span class="metadata-value">{{ verification.id }}</span>
+        </div>
+        <div class="metadata-item">
+          <span class="metadata-label">Verified On</span>
+          <span class="metadata-value"
+            >{{ verification.verified_at.strftime('%Y-%m-%d %H:%M') }}</span
+          >
+        </div>
+        <div class="metadata-item">
+          <span class="metadata-label">Source</span>
+          <span class="metadata-value"
+            >{{ verification.source or 'Not specified' }}</span
+          >
+        </div>
+        <div class="metadata-item">
+          <span class="metadata-label">Content Type</span>
+          <span class="metadata-value"
+            >{{ verification.content_type|default('Article') }}</span
+          >
+        </div>
+        <div class="metadata-item">
+          <span class="metadata-label">Word Count</span>
+          <span class="metadata-value"
+            >{{
+            verification.word_count|default(verification.original_text.split()|length)
+            }}</span
+          >
+        </div>
+        <div class="metadata-item">
+          <span class="metadata-label">Verification Method</span>
+          <span class="metadata-value"
+            >{{ verification.verification_method|default('AI Analysis + Expert
+            Review') }}</span
+          >
+        </div>
+        <div class="metadata-item">
+          <span class="metadata-label">Language</span>
+          <span class="metadata-value"
+            >{{ verification.language|default('English') }}</span
+          >
+        </div>
+        <div class="metadata-item">
+          <span class="metadata-label">Category</span>
+          <span class="metadata-value"
+            >{{ verification.category|default('General') }}</span
+          >
+        </div>
+        <div class="metadata-item">
+          <span class="metadata-label">Verified By</span>
+          <span class="metadata-value"
+            >{{ verification.verified_by|default('NewsGuard AI System') }}</span
+          >
+        </div>
+      </div>
+
+      <div class="verification-process">
+        <h2 class="process-title">Verification Process</h2>
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="step-icon step-complete">
+              <i class="fas fa-file-alt"></i>
+            </div>
+            <div class="step-label">Content Submission</div>
+          </div>
+          <div class="process-step">
+            <div class="step-icon step-complete">
+              <i class="fas fa-robot"></i>
+            </div>
+            <div class="step-label">AI Detection</div>
+          </div>
+          <div class="process-step">
+            <div class="step-icon step-complete">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="step-label">Fact Checking</div>
+          </div>
+          <div class="process-step">
+            <div class="step-icon step-complete">
+              <i class="fas fa-newspaper"></i>
+            </div>
+            <div class="step-label">Source Analysis</div>
+          </div>
+          <div class="process-step">
+            <div class="step-icon step-complete">
+              <i class="fas fa-chart-bar"></i>
+            </div>
+            <div class="step-label">Score Generation</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <a
+          href="#"
+          class="action-btn secondary-btn"
+          onclick="window.print(); return false;"
+        >
+          <i class="fas fa-print"></i> Print Report
+        </a>
+        <a
+          href="#"
+          class="action-btn secondary-btn"
+          onclick="navigator.clipboard.writeText(window.location.href); alert('Link copied to clipboard!'); return false;"
+        >
+          <i class="fas fa-share-alt"></i> Share Report
+        </a>
+        <a
+          href="{{ url_for('auth.dashboard') }}"
+          class="action-btn secondary-btn"
+        >
+          <i class="fas fa-history"></i> View History
+        </a>
+        <a href="{{ url_for('index') }}" class="action-btn primary-btn">
+          <i class="fas fa-search"></i> New Verification
+        </a>
+      </div>
+    </div>
+
+    {% include 'components/footer.html' %}
+  </body>
+</html>

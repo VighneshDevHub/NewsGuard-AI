@@ -19,3 +19,4 @@ with app.app_context():
     print("- VerificationResults: Store content verification results and scores")
     print("\nYou can now view this data in your user dashboard!")
     print("Access your dashboard by logging in and clicking on 'Dashboard' in the user menu.")
+

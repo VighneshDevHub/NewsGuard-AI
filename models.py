@@ -133,3 +133,5 @@ class SearchQuery(db.Model):
     
     def __repr__(self):
         return f'<SearchQuery id={self.id} query="{self.query_text[:30]}...">'
+
+

@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, redirect
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 import ollama
 import requests
 import json
@@ -7,7 +7,10 @@ import trafilatura
 from urllib.parse import urlparse
 from datetime import datetime
 from flask_mail import Mail, Message
-from config import Config  
+from flask_login import LoginManager, current_user, login_required
+from config import Config
+from models import db, User, UserHistory, SavedArticle, VerificationResult, SearchQuery
+from auth import auth as auth_blueprint
 
 # Create the Flask app
 app = Flask(__name__)
@@ -17,6 +20,21 @@ app.config.from_object(Config)
 
 # Initialize Flask-Mail
 mail = Mail(app)
+
+# Initialize SQLAlchemy
+db.init_app(app)
+
+# Initialize Flask-Login
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# Register blueprints
+app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
 # Google Custom Search setup
 API_KEY = Config.GOOGLE_API_KEY
@@ -196,6 +214,17 @@ def show_results():
 
         search_results = []
         
+        # Create search query record in database
+        search_query = SearchQuery(query_text=original_news)
+        search_query.set_headlines(headlines)
+        
+        # Associate with user if logged in
+        if current_user.is_authenticated:
+            search_query.user_id = current_user.id
+        
+        db.session.add(search_query)
+        db.session.commit()
+        
         # Process each headline
         for headline in headlines:
             # Search for URLs
@@ -214,6 +243,23 @@ def show_results():
                     'headline': headline,
                     'articles': articles
                 })
+        
+        # Update search query with results
+        search_query.set_search_results({headline: [a['url'] for a in result['articles']] 
+                                        for result in search_results 
+                                        for headline in [result['headline']]})
+        db.session.commit()
+        
+        # Add to user history if logged in
+        if current_user.is_authenticated:
+            history_entry = UserHistory(
+                user_id=current_user.id,
+                action_type='search_performed',
+                action_details=f'Search with {len(headlines)} headlines',
+                article_title=f'Search #{search_query.id}'
+            )
+            db.session.add(history_entry)
+            db.session.commit()
 
         # Get current time
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -390,6 +436,35 @@ def get_authenticity_analysis():
             raise ValueError("No original news content provided")
             
         analysis_result = analyze_authenticity(original_news, verified_articles)
+        
+        # Store verification result in database if user is logged in
+        if current_user.is_authenticated:
+            # Create verification result record
+            verification = VerificationResult(
+                user_id=current_user.id,
+                original_text=original_news,
+                authenticity_score=analysis_result['authenticity_score']
+            )
+            
+            # Set JSON fields
+            verification.set_key_findings(analysis_result['key_findings'])
+            verification.set_differences(analysis_result['differences'])
+            verification.set_supporting_evidence(analysis_result['supporting_evidence'])
+            verification.set_score_breakdown(analysis_result['score_breakdown'])
+            
+            # Add to database
+            db.session.add(verification)
+            
+            # Add to user history
+            history_entry = UserHistory(
+                user_id=current_user.id,
+                action_type='article_verified',
+                action_details=f'Article verified with score: {analysis_result["authenticity_score"]}%',
+                article_title='Verification #' + str(verification.id)
+            )
+            db.session.add(history_entry)
+            db.session.commit()
+        
         return jsonify(analysis_result)
         
     except Exception as e:
@@ -446,6 +521,55 @@ def documentation():
     except Exception as e:
         print(f"Error rendering documentation page: {str(e)}")
         return redirect('/')
+
+@app.route('/save_article', methods=['POST'])
+@login_required
+def save_article():
+    try:
+        data = request.get_json()
+        article_url = data.get('article_url')
+        article_title = data.get('article_title')
+        article_content = data.get('article_content')
+        article_source = data.get('article_source')
+        image_url = data.get('image_url')
+        
+        if not article_url or not article_title:
+            return jsonify({'error': 'URL and title are required'}), 400
+            
+        # Check if article is already saved
+        existing = SavedArticle.query.filter_by(user_id=current_user.id, article_url=article_url).first()
+        if existing:
+            return jsonify({'message': 'Article already saved', 'saved': True}), 200
+        
+        # Create new saved article
+        saved_article = SavedArticle(
+            user_id=current_user.id,
+            article_url=article_url,
+            article_title=article_title,
+            article_content=article_content,
+            article_source=article_source,
+            image_url=image_url
+        )
+        
+        # Add to database
+        db.session.add(saved_article)
+        
+        # Add to user history
+        history_entry = UserHistory(
+            user_id=current_user.id,
+            action_type='article_saved',
+            action_details=f'Saved article: {article_title[:50]}...',
+            article_url=article_url,
+            article_title=article_title
+        )
+        db.session.add(history_entry)
+        db.session.commit()
+        
+        return jsonify({'message': 'Article saved successfully', 'saved': True}), 200
+        
+    except Exception as e:
+        print(f"Error saving article: {str(e)}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api-access')
 def api_access():

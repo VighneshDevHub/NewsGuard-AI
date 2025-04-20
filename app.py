@@ -591,6 +591,7 @@ def case_studies():
 def submit_contact():
     print(request.json)  # Debugging: Check if JSON data is received
 
+
     try:
         # Extract data from the JSON payload
         name = request.json.get('name')

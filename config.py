@@ -10,5 +10,12 @@ class Config:
     # Google Custom Search API configuration
     GOOGLE_API_KEY = "AIzaSyB2nlYuSgnoKLBKC4aF2nfF2drE3ZWIMNk"
     GOOGLE_CSE_ID = "15c198a8769a045ec"
+    
+    # Flask configuration
+    SECRET_KEY = 'your-secret-key-goes-here'
+    
+    # Database configuration
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:admin@localhost/newsguard'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     

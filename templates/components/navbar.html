@@ -8,6 +8,39 @@
       <a href="/how-it-works" {% if active_page=='how-it-works' %}class="active" {% endif %}>How it Works</a>
       <a href="/faq" {% if active_page=='faq' %}class="active" {% endif %}>FAQ</a>
       <a href="/contact" {% if active_page=='contact' %}class="active" {% endif %}>Contact</a>
+      <!-- User Profile Icon with Dropdown -->
+      <div class="user-profile-container">
+        {% if current_user.is_authenticated %}
+        <div class="profile-icon-wrapper {% if active_page=='profile' %}active{% endif %}">
+          <a href="#" class="profile-icon" id="profileDropdownToggle">
+            <div class="avatar-circle">{{ current_user.username[0].upper() }}</div>
+          </a>
+          <div class="profile-dropdown" id="profileDropdown">
+            <a href="{{ url_for('auth.profile') }}">
+              <i class="fa-solid fa-user"></i> Profile
+            </a>
+            <a href="{{ url_for('auth.dashboard') }}">
+              <i class="fa-solid fa-gauge-high"></i> Dashboard
+            </a>
+            <a href="{{ url_for('auth.logout') }}">
+              <i class="fa-solid fa-sign-out-alt"></i> Logout
+            </a>
+          </div>
+        </div>
+        {% else %}
+        <a href="#" class="profile-icon" id="profileDropdownToggle">
+          <i class="fa-solid fa-user"></i>
+        </a>
+        <div class="profile-dropdown" id="profileDropdown">
+          <a href="{{ url_for('auth.login') }}">
+            <i class="fa-solid fa-sign-in-alt"></i> Login
+          </a>
+          <a href="{{ url_for('auth.signup') }}">
+            <i class="fa-solid fa-user-plus"></i> Sign Up
+          </a>
+        </div>
+        {% endif %}
+      </div>
     </div>
 
     <!-- Mobile Hamburger Menu -->
@@ -25,6 +58,39 @@
       <a href="/how-it-works" {% if active_page=='how-it-works' %}class="active" {% endif %}>How it Works</a>
       <a href="/faq" {% if active_page=='faq' %}class="active" {% endif %}>FAQ</a>
       <a href="/contact" {% if active_page=='contact' %}class="active" {% endif %}>Contact</a>
+      <!-- User Profile Icon with Dropdown -->
+      <div class="user-profile-container">
+        {% if current_user.is_authenticated %}
+        <div class="profile-icon-wrapper {% if active_page=='profile' %}active{% endif %}">
+          <a href="#" class="profile-icon" id="profileDropdownToggle">
+            <div class="avatar-circle">{{ current_user.username[0].upper() }}</div>
+          </a>
+          <div class="profile-dropdown" id="profileDropdown">
+            <a href="{{ url_for('auth.profile') }}">
+              <i class="fa-solid fa-user"></i> Profile
+            </a>
+            <a href="{{ url_for('auth.dashboard') }}">
+              <i class="fa-solid fa-gauge-high"></i> Dashboard
+            </a>
+            <a href="{{ url_for('auth.logout') }}">
+              <i class="fa-solid fa-sign-out-alt"></i> Logout
+            </a>
+          </div>
+        </div>
+        {% else %}
+        <a href="#" class="profile-icon" id="profileDropdownToggle">
+          <i class="fa-solid fa-user"></i>
+        </a>
+        <div class="profile-dropdown" id="profileDropdown">
+          <a href="{{ url_for('auth.login') }}">
+            <i class="fa-solid fa-sign-in-alt"></i> Login
+          </a>
+          <a href="{{ url_for('auth.signup') }}">
+            <i class="fa-solid fa-user-plus"></i> Sign Up
+          </a>
+        </div>
+        {% endif %}
+      </div>
       </div>
     </div>
 

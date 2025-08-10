@@ -6,11 +6,13 @@
 import showExtractedContent from './utils/showExtractedContent.js';
 import analyzeAuthenticity from './utils/analyzeAuthenticity.js';
 import updateScoreChart from './utils/updateScoreChart.js';
+import saveArticle from './utils/saveArticle.js';
 
 // Make functions available globally
 window.showExtractedContent = showExtractedContent;
 window.analyzeAuthenticity = analyzeAuthenticity;
 window.updateScoreChart = updateScoreChart;
+window.saveArticle = saveArticle;
 
 // Initialize any event listeners when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -37,4 +39,4 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-}); 
+});

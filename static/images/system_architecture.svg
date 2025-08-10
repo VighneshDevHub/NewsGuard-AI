@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="800" viewBox="0 0 1000 800">
+  <style>
+    .component {
+      fill: #f5f5f5;
+      stroke: #333;
+      stroke-width: 2;
+    }
+    .component-title {
+      fill: #2c3e50;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      font-weight: bold;
+      text-anchor: middle;
+    }
+    .component-description {
+      fill: #333;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      text-anchor: middle;
+    }
+    .flow {
+      stroke: #3498db;
+      stroke-width: 2;
+      fill: none;
+      marker-end: url(#arrowhead);
+    }
+    .external {
+      fill: #e8f4f8;
+      stroke: #2980b9;
+      stroke-width: 2;
+    }
+    .user-interface {
+      fill: #e8f8f5;
+      stroke: #27ae60;
+      stroke-width: 2;
+    }
+    .core {
+      fill: #fef5e7;
+      stroke: #f39c12;
+      stroke-width: 2;
+    }
+    .data {
+      fill: #f8e8f5;
+      stroke: #8e44ad;
+      stroke-width: 2;
+    }
+    .api {
+      fill: #f5e8e8;
+      stroke: #c0392b;
+      stroke-width: 2;
+    }
+    .layer-title {
+      fill: #7f8c8d;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  </style>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#3498db" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="500" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold">NewsGuard-AI System Architecture</text>
+  
+  <!-- Layer Labels -->
+  <text x="80" y="100" class="layer-title">External Services</text>
+  <text x="80" y="250" class="layer-title">User Interface</text>
+  <text x="80" y="400" class="layer-title">Core Services</text>
+  <text x="80" y="600" class="layer-title">Data Layer</text>
+  
+  <!-- External Services Layer -->
+  <rect x="150" y="70" width="150" height="80" rx="5" ry="5" class="component external" />
+  <text x="225" y="100" class="component-title">News APIs</text>
+  <text x="225" y="120" class="component-description">External news sources</text>
+  <text x="225" y="135" class="component-description">and content providers</text>
+  
+  <rect x="350" y="70" width="150" height="80" rx="5" ry="5" class="component external" />
+  <text x="425" y="100" class="component-title">Fact-Checking APIs</text>
+  <text x="425" y="120" class="component-description">Third-party verification</text>
+  <text x="425" y="135" class="component-description">services</text>
+  
+  <rect x="550" y="70" width="150" height="80" rx="5" ry="5" class="component external" />
+  <text x="625" y="100" class="component-title">AI Services</text>
+  <text x="625" y="120" class="component-description">NLP and ML models</text>
+  <text x="625" y="135" class="component-description">for content analysis</text>
+  
+  <rect x="750" y="70" width="150" height="80" rx="5" ry="5" class="component external" />
+  <text x="825" y="100" class="component-title">Authentication</text>
+  <text x="825" y="120" class="component-description">OAuth providers</text>
+  <text x="825" y="135" class="component-description">and identity services</text>
+  
+  <!-- User Interface Layer -->
+  <rect x="150" y="200" width="120" height="80" rx="5" ry="5" class="component user-interface" />
+  <text x="210" y="230" class="component-title">Web UI</text>
+  <text x="210" y="250" class="component-description">Browser interface</text>
+  
+  <rect x="300" y="200" width="120" height="80" rx="5" ry="5" class="component user-interface" />
+  <text x="360" y="230" class="component-title">Mobile UI</text>
+  <text x="360" y="250" class="component-description">Responsive design</text>
+  
+  <rect x="450" y="200" width="120" height="80" rx="5" ry="5" class="component user-interface" />
+  <text x="510" y="230" class="component-title">Dashboard</text>
+  <text x="510" y="250" class="component-description">User analytics</text>
+  
+  <rect x="600" y="200" width="120" height="80" rx="5" ry="5" class="component user-interface" />
+  <text x="660" y="230" class="component-title">Admin Panel</text>
+  <text x="660" y="250" class="component-description">System management</text>
+  
+  <rect x="750" y="200" width="120" height="80" rx="5" ry="5" class="component user-interface" />
+  <text x="810" y="230" class="component-title">Notifications</text>
+  <text x="810" y="250" class="component-description">Alerts system</text>
+  
+  <!-- Core Services Layer -->
+  <rect x="150" y="350" width="150" height="100" rx="5" ry="5" class="component core" />
+  <text x="225" y="380" class="component-title">Authentication</text>
+  <text x="225" y="400" class="component-description">User management</text>
+  <text x="225" y="415" class="component-description">Login/Registration</text>
+  <text x="225" y="430" class="component-description">Profile management</text>
+  
+  <rect x="350" y="350" width="150" height="100" rx="5" ry="5" class="component core" />
+  <text x="425" y="380" class="component-title">Content Verification</text>
+  <text x="425" y="400" class="component-description">Article analysis</text>
+  <text x="425" y="415" class="component-description">Source credibility</text>
+  <text x="425" y="430" class="component-description">Fact-checking</text>
+  
+  <rect x="550" y="350" width="150" height="100" rx="5" ry="5" class="component core" />
+  <text x="625" y="380" class="component-title">Search Engine</text>
+  <text x="625" y="400" class="component-description">Content indexing</text>
+  <text x="625" y="415" class="component-description">Query processing</text>
+  <text x="625" y="430" class="component-description">Results ranking</text>
+  
+  <rect x="750" y="350" width="150" height="100" rx="5" ry="5" class="component core" />
+  <text x="825" y="380" class="component-title">Analytics Engine</text>
+  <text x="825" y="400" class="component-description">Usage statistics</text>
+  <text x="825" y="415" class="component-description">Performance metrics</text>
+  <text x="825" y="430" class="component-description">Trend analysis</text>
+  
+  <rect x="350" y="480" width="150" height="100" rx="5" ry="5" class="component api" />
+  <text x="425" y="510" class="component-title">API Gateway</text>
+  <text x="425" y="530" class="component-description">RESTful endpoints</text>
+  <text x="425" y="545" class="component-description">Rate limiting</text>
+  <text x="425" y="560" class="component-description">Authentication</text>
+  
+  <rect x="550" y="480" width="150" height="100" rx="5" ry="5" class="component core" />
+  <text x="625" y="510" class="component-title">Notification Service</text>
+  <text x="625" y="530" class="component-description">Email alerts</text>
+  <text x="625" y="545" class="component-description">In-app notifications</text>
+  <text x="625" y="560" class="component-description">Push notifications</text>
+  
+  <!-- Data Layer -->
+  <rect x="150" y="650" width="150" height="80" rx="5" ry="5" class="component data" />
+  <text x="225" y="680" class="component-title">User Database</text>
+  <text x="225" y="700" class="component-description">User profiles and</text>
+  <text x="225" y="715" class="component-description">authentication data</text>
+  
+  <rect x="350" y="650" width="150" height="80" rx="5" ry="5" class="component data" />
+  <text x="425" y="680" class="component-title">Content Database</text>
+  <text x="425" y="700" class="component-description">Articles, sources,</text>
+  <text x="425" y="715" class="component-description">and verification results</text>
+  
+  <rect x="550" y="650" width="150" height="80" rx="5" ry="5" class="component data" />
+  <text x="625" y="680" class="component-title">Analytics Database</text>
+  <text x="625" y="700" class="component-description">Usage statistics</text>
+  <text x="625" y="715" class="component-description">and performance data</text>
+  
+  <rect x="750" y="650" width="150" height="80" rx="5" ry="5" class="component data" />
+  <text x="825" y="680" class="component-title">Cache Layer</text>
+  <text x="825" y="700" class="component-description">Redis/Memcached</text>
+  <text x="825" y="715" class="component-description">for performance</text>
+  
+  <!-- Connections -->
+  <!-- External to Core -->
+  <path d="M 225 150 L 225 350" class="flow" />
+  <path d="M 425 150 L 425 350" class="flow" />
+  <path d="M 625 150 L 625 350" class="flow" />
+  <path d="M 825 150 L 825 350" class="flow" />
+  
+  <!-- UI to Core -->
+  <path d="M 210 280 L 210 350" class="flow" />
+  <path d="M 360 280 L 360 350" class="flow" />
+  <path d="M 510 280 L 510 350" class="flow" />
+  <path d="M 660 280 L 660 350" class="flow" />
+  <path d="M 810 280 L 810 350" class="flow" />
+  
+  <!-- Core to API -->
+  <path d="M 300 400 L 350 510" class="flow" />
+  <path d="M 500 400 L 425 480" class="flow" />
+  <path d="M 700 400 L 625 480" class="flow" />
+  
+  <!-- Core to Data -->
+  <path d="M 225 450 L 225 650" class="flow" />
+  <path d="M 425 450 L 425 650" class="flow" />
+  <path d="M 625 450 L 625 650" class="flow" />
+  <path d="M 825 450 L 825 650" class="flow" />
+  
+  <!-- API to Data -->
+  <path d="M 425 580 L 425 650" class="flow" />
+  <path d="M 625 580 L 625 650" class="flow" />
+  
+  <!-- Legend -->
+  <rect x="800" y="480" width="150" height="100" rx="5" ry="5" fill="#f5f5f5" stroke="#333" stroke-width="1" />
+  <text x="875" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold">Legend</text>
+  
+  <rect x="810" y="510" width="20" height="10" class="external" />
+  <text x="870" y="520" class="component-description" text-anchor="start">External Services</text>
+  
+  <rect x="810" y="530" width="20" height="10" class="user-interface" />
+  <text x="870" y="540" class="component-description" text-anchor="start">User Interface</text>
+  
+  <rect x="810" y="550" width="20" height="10" class="core" />
+  <text x="870" y="560" class="component-description" text-anchor="start">Core Services</text>
+  
+  <rect x="810" y="570" width="20" height="10" class="data" />
+  <text x="870" y="580" class="component-description" text-anchor="start">Data Layer</text>
+  
+  <!-- Description -->
+  <text x="500" y="770" text-anchor="middle" font-family="Arial, sans-serif" font-size="14">System Architecture Diagram for NewsGuard-AI Project</text>
+  <text x="500" y="790" text-anchor="middle" font-family="Arial, sans-serif" font-size="12">Shows the main components and their interactions across different layers</text>
+</svg>

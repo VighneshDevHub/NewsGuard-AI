@@ -160,9 +160,28 @@
                     {% endif %}
                   </div>
                   <p class="description">{{ article.description }}</p>
-                  <a href="{{ article.url }}" target="_blank" class="read-more">
-                    Read Full Article <i class="fas fa-external-link-alt"></i>
-                  </a>
+                  <div class="card-actions">
+                    <a
+                      href="{{ article.url }}"
+                      target="_blank"
+                      class="read-more"
+                    >
+                      Read Full Article <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    {% if current_user.is_authenticated %}
+                    <button
+                      class="save-article-btn"
+                      data-url="{{ article.url }}"
+                      data-title="{{ article.title }}"
+                      data-content="{{ article.description }}"
+                      data-source="{{ article.source }}"
+                      data-image="{{ article.image_url }}"
+                      onclick="saveArticle('{{ article.url }}', '{{ article.title }}', '{{ article.description }}', '{{ article.source }}', '{{ article.image_url }}')"
+                    >
+                      <i class="far fa-bookmark"></i> Save Article
+                    </button>
+                    {% endif %}
+                  </div>
                 </div>
               </div>
               {% endfor %}

@@ -75,6 +75,7 @@
         cursor: pointer;
         border-bottom: 3px solid transparent;
         transition: all 0.3s;
+        color:#333
       }
 
       .tab.active {
@@ -314,11 +315,11 @@
             {% for article in saved_articles %}
             <tr>
               <td>{{ article.saved_at.strftime('%Y-%m-%d') }}</td>
-              <td>{{ article.title }}</td>
-              <td>{{ article.source }}</td>
+              <td>{{ article.article_title }}</td>
+              <td>{{ article.article_source }}</td>
               <td>
                 <a
-                  href="{{ article.url }}"
+                  href="{{ article.article_url }}"
                   target="_blank"
                   class="action-btn view-btn"
                   >View</a

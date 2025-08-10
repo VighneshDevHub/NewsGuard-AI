@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="800" viewBox="0 0 1000 800">
+  <style>
+    .entity {
+      fill: #f5f5f5;
+      stroke: #333;
+      stroke-width: 2;
+    }
+    .entity-title {
+      fill: #2c3e50;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .entity-attribute {
+      fill: #333;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+    .pk {
+      fill: #e74c3c;
+    }
+    .fk {
+      fill: #3498db;
+    }
+    .relationship {
+      stroke: #3498db;
+      stroke-width: 2;
+      fill: none;
+    }
+    .cardinality {
+      fill: #333;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+  </style>
+  
+  <!-- Title -->
+  <text x="500" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold">NewsGuard-AI Database Schema</text>
+  
+  <!-- User Entity -->
+  <rect x="50" y="100" width="200" height="220" rx="5" ry="5" class="entity" />
+  <line x1="50" y1="130" x2="250" y2="130" stroke="#333" stroke-width="1" />
+  <text x="150" y="120" text-anchor="middle" class="entity-title">User</text>
+  <text x="60" y="150" class="entity-attribute pk">PK</text>
+  <text x="80" y="150" class="entity-attribute">id: Integer</text>
+  <text x="60" y="170" class="entity-attribute">username: String(64)</text>
+  <text x="60" y="190" class="entity-attribute">email: String(120)</text>
+  <text x="60" y="210" class="entity-attribute">password_hash: String(528)</text>
+  <text x="60" y="230" class="entity-attribute">created_at: DateTime</text>
+  <text x="60" y="250" class="entity-attribute">is_active: Boolean</text>
+  <text x="60" y="270" class="entity-attribute">history: Relationship</text>
+  <text x="60" y="290" class="entity-attribute">saved_articles: Relationship</text>
+  <text x="60" y="310" class="entity-attribute">verifications: Relationship</text>
+  
+  <!-- UserHistory Entity -->
+  <rect x="350" y="100" width="200" height="200" rx="5" ry="5" class="entity" />
+  <line x1="350" y1="130" x2="550" y2="130" stroke="#333" stroke-width="1" />
+  <text x="450" y="120" text-anchor="middle" class="entity-title">UserHistory</text>
+  <text x="360" y="150" class="entity-attribute pk">PK</text>
+  <text x="380" y="150" class="entity-attribute">id: Integer</text>
+  <text x="360" y="170" class="entity-attribute fk">FK</text>
+  <text x="380" y="170" class="entity-attribute">user_id: Integer</text>
+  <text x="360" y="190" class="entity-attribute">action_type: String(50)</text>
+  <text x="360" y="210" class="entity-attribute">action_details: Text</text>
+  <text x="360" y="230" class="entity-attribute">article_url: String(500)</text>
+  <text x="360" y="250" class="entity-attribute">article_title: String(200)</text>
+  <text x="360" y="270" class="entity-attribute">created_at: DateTime</text>
+  
+  <!-- SavedArticle Entity -->
+  <rect x="50" y="400" width="200" height="180" rx="5" ry="5" class="entity" />
+  <line x1="50" y1="430" x2="250" y2="430" stroke="#333" stroke-width="1" />
+  <text x="150" y="420" text-anchor="middle" class="entity-title">SavedArticle</text>
+  <text x="60" y="450" class="entity-attribute pk">PK</text>
+  <text x="80" y="450" class="entity-attribute">id: Integer</text>
+  <text x="60" y="470" class="entity-attribute fk">FK</text>
+  <text x="80" y="470" class="entity-attribute">user_id: Integer</text>
+  <text x="60" y="490" class="entity-attribute">article_url: String(500)</text>
+  <text x="60" y="510" class="entity-attribute">article_title: String(200)</text>
+  <text x="60" y="530" class="entity-attribute">article_content: Text</text>
+  <text x="60" y="550" class="entity-attribute">article_source: String(100)</text>
+  <text x="60" y="570" class="entity-attribute">saved_at: DateTime</text>
+  
+  <!-- VerificationResult Entity -->
+  <rect x="350" y="400" width="200" height="220" rx="5" ry="5" class="entity" />
+  <line x1="350" y1="430" x2="550" y2="430" stroke="#333" stroke-width="1" />
+  <text x="450" y="420" text-anchor="middle" class="entity-title">VerificationResult</text>
+  <text x="360" y="450" class="entity-attribute pk">PK</text>
+  <text x="380" y="450" class="entity-attribute">id: Integer</text>
+  <text x="360" y="470" class="entity-attribute fk">FK</text>
+  <text x="380" y="470" class="entity-attribute">user_id: Integer</text>
+  <text x="360" y="490" class="entity-attribute">original_text: Text</text>
+  <text x="360" y="510" class="entity-attribute">authenticity_score: Integer</text>
+  <text x="360" y="530" class="entity-attribute">key_findings: Text (JSON)</text>
+  <text x="360" y="550" class="entity-attribute">differences: Text (JSON)</text>
+  <text x="360" y="570" class="entity-attribute">supporting_evidence: Text (JSON)</text>
+  <text x="360" y="590" class="entity-attribute">score_breakdown: Text (JSON)</text>
+  <text x="360" y="610" class="entity-attribute">verified_at: DateTime</text>
+  
+  <!-- SearchQuery Entity -->
+  <rect x="650" y="250" width="200" height="180" rx="5" ry="5" class="entity" />
+  <line x1="650" y1="280" x2="850" y2="280" stroke="#333" stroke-width="1" />
+  <text x="750" y="270" text-anchor="middle" class="entity-title">SearchQuery</text>
+  <text x="660" y="300" class="entity-attribute pk">PK</text>
+  <text x="680" y="300" class="entity-attribute">id: Integer</text>
+  <text x="660" y="320" class="entity-attribute fk">FK</text>
+  <text x="680" y="320" class="entity-attribute">user_id: Integer</text>
+  <text x="660" y="340" class="entity-attribute">query_text: Text</text>
+  <text x="660" y="360" class="entity-attribute">headlines: Text (JSON)</text>
+  <text x="660" y="380" class="entity-attribute">search_results: Text (JSON)</text>
+  <text x="660" y="400" class="entity-attribute">created_at: DateTime</text>
+  
+  <!-- Relationships -->
+  <!-- User to UserHistory (1:N) -->
+  <path d="M 250 150 L 350 150" class="relationship" />
+  <text x="260" y="145" class="cardinality">1</text>
+  <text x="340" y="145" class="cardinality">N</text>
+  
+  <!-- User to SavedArticle (1:N) -->
+  <path d="M 150 320 L 150 400" class="relationship" />
+  <text x="155" y="330" class="cardinality">1</text>
+  <text x="155" y="390" class="cardinality">N</text>
+  
+  <!-- User to VerificationResult (1:N) -->
+  <path d="M 250 200 C 300 200 300 450 350 450" class="relationship" />
+  <text x="260" y="195" class="cardinality">1</text>
+  <text x="340" y="445" class="cardinality">N</text>
+  
+  <!-- User to SearchQuery (1:N) -->
+  <path d="M 250 250 C 450 250 450 300 650 300" class="relationship" />
+  <text x="260" y="245" class="cardinality">1</text>
+  <text x="640" y="295" class="cardinality">N</text>
+  
+  <!-- Legend -->
+  <rect x="700" y="100" width="250" height="100" rx="5" ry="5" fill="#f5f5f5" stroke="#333" stroke-width="1" />
+  <text x="825" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold">Legend</text>
+  <text x="710" y="140" class="entity-attribute pk">PK</text>
+  <text x="730" y="140" class="entity-attribute">Primary Key</text>
+  <text x="710" y="160" class="entity-attribute fk">FK</text>
+  <text x="730" y="160" class="entity-attribute">Foreign Key</text>
+  <line x1="710" y1="175" x2="760" y2="175" class="relationship" />
+  <text x="770" y="180" class="entity-attribute">Relationship</text>
+  
+  <!-- Description -->
+  <text x="500" y="750" text-anchor="middle" font-family="Arial, sans-serif" font-size="14">Entity-Relationship Diagram for NewsGuard-AI Project</text>
+  <text x="500" y="770" text-anchor="middle" font-family="Arial, sans-serif" font-size="12">Shows database schema with entities and their relationships</text>
+</svg>

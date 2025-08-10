@@ -30,7 +30,6 @@ body {
   line-height: 1.6;
 }
 
-
 /* Navbar Styles */
 
 /* Main Content */
@@ -169,6 +168,13 @@ main {
   line-height: 1.6;
 }
 
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
 .read-more {
   display: inline-flex;
   align-items: center;
@@ -181,6 +187,29 @@ main {
 
 .read-more:hover {
   color: var(--accent);
+}
+
+.save-article-btn {
+  background-color: #f8f9fa;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  color: #5f6368;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 12px;
+  transition: all 0.3s;
+}
+
+.save-article-btn:hover {
+  background-color: #f1f3f4;
+  color: #202124;
+}
+
+.save-article-btn:disabled {
+  background-color: #e8f0fe;
+  color: #4285f4;
+  cursor: default;
 }
 
 /* No Results */
@@ -255,11 +284,8 @@ footer {
   opacity: 0.8;
 }
 
-
-
 /* Responsive Design */
 @media (max-width: 768px) {
-
   .news-grid {
     grid-template-columns: 1fr;
   }
@@ -269,8 +295,6 @@ footer {
     gap: 1rem;
     text-align: center;
   }
-
- 
 }
 
 /* Add these styles at the end of the file */
@@ -390,7 +414,7 @@ footer {
 }
 
 .analysis-card h3::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -460,16 +484,16 @@ footer {
   .analysis-details {
     grid-template-columns: 1fr;
   }
-  
+
   .analysis-card {
     margin-bottom: 1.5rem;
   }
-  
+
   .score-circle {
     width: 150px;
     height: 150px;
   }
-  
+
   .score-text {
     font-size: 2rem;
   }
@@ -480,7 +504,7 @@ footer {
   .analysis-details {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .analysis-card:last-child {
     grid-column: span 2;
   }
@@ -493,9 +517,15 @@ footer {
   transform: translateY(10px);
 }
 
-.analysis-card li:nth-child(1) { animation-delay: 0.1s; }
-.analysis-card li:nth-child(2) { animation-delay: 0.2s; }
-.analysis-card li:nth-child(3) { animation-delay: 0.3s; }
+.analysis-card li:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.analysis-card li:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.analysis-card li:nth-child(3) {
+  animation-delay: 0.3s;
+}
 
 @keyframes slideIn {
   to {

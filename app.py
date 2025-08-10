@@ -97,6 +97,10 @@ def extract_key_phrases_with_ollama(text):
 def index():
     return render_template('index.html', active_page='home')
 
+@app.route('/diagrams')
+def diagrams():
+    return render_template('diagrams.html', active_page='diagrams')
+
 @app.route('/extract', methods=['POST'])
 def extract():
     try:

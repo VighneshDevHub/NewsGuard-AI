@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="800" viewBox="0 0 1000 800">
+  <style>
+    .step {
+      fill: #f5f5f5;
+      stroke: #333;
+      stroke-width: 2;
+    }
+    .step-title {
+      fill: #2c3e50;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      font-weight: bold;
+      text-anchor: middle;
+    }
+    .step-description {
+      fill: #333;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      text-anchor: middle;
+    }
+    .flow {
+      stroke: #3498db;
+      stroke-width: 2;
+      fill: none;
+      marker-end: url(#arrowhead);
+    }
+    .decision {
+      fill: #fef5e7;
+      stroke: #f39c12;
+      stroke-width: 2;
+    }
+    .start-end {
+      fill: #e8f8f5;
+      stroke: #27ae60;
+      stroke-width: 2;
+    }
+    .process {
+      fill: #e8f4f8;
+      stroke: #2980b9;
+      stroke-width: 2;
+    }
+    .input-output {
+      fill: #f8e8f5;
+      stroke: #8e44ad;
+      stroke-width: 2;
+    }
+    .alternative {
+      stroke: #e74c3c;
+      stroke-width: 2;
+      stroke-dasharray: 5,5;
+      fill: none;
+      marker-end: url(#arrowhead-alt);
+    }
+  </style>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#3498db" />
+    </marker>
+    <marker id="arrowhead-alt" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#e74c3c" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="500" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold">NewsGuard-AI User Flow Diagram</text>
+  
+  <!-- Start -->
+  <ellipse cx="500" cy="80" rx="80" ry="30" class="start-end" />
+  <text x="500" y="85" class="step-title">Start</text>
+  
+  <!-- User Registration/Login -->
+  <rect x="400" y="130" width="200" height="60" rx="5" ry="5" class="process" />
+  <text x="500" y="155" class="step-title">User Registration/Login</text>
+  <text x="500" y="175" class="step-description">Create account or sign in</text>
+  
+  <!-- Dashboard -->
+  <rect x="400" y="220" width="200" height="60" rx="5" ry="5" class="process" />
+  <text x="500" y="245" class="step-title">User Dashboard</text>
+  <text x="500" y="265" class="step-description">View history and saved articles</text>
+  
+  <!-- Content Input Decision -->
+  <polygon points="500,310 560,350 500,390 440,350" class="decision" />
+  <text x="500" y="355" class="step-title">Verify Content?</text>
+  
+  <!-- Input Article -->
+  <rect x="400" y="420" width="200" height="60" rx="5" ry="5" class="input-output" />
+  <text x="500" y="445" class="step-title">Input Article</text>
+  <text x="500" y="465" class="step-description">URL, text, or upload file</text>
+  
+  <!-- Search News -->
+  <rect x="150" y="350" width="200" height="60" rx="5" ry="5" class="input-output" />
+  <text x="250" y="375" class="step-title">Search News</text>
+  <text x="250" y="395" class="step-description">Find articles to verify</text>
+  
+  <!-- Verification Process -->
+  <rect x="400" y="510" width="200" height="60" rx="5" ry="5" class="process" />
+  <text x="500" y="535" class="step-title">Verification Process</text>
+  <text x="500" y="555" class="step-description">AI analyzes content</text>
+  
+  <!-- Results Ready -->
+  <polygon points="500,600 560,640 500,680 440,640" class="decision" />
+  <text x="500" y="645" class="step-title">Results Ready?</text>
+  
+  <!-- View Results -->
+  <rect x="400" y="710" width="200" height="60" rx="5" ry="5" class="input-output" />
+  <text x="500" y="735" class="step-title">View Results</text>
+  <text x="500" y="755" class="step-description">Authenticity score and analysis</text>
+  
+  <!-- Save Results Decision -->
+  <polygon points="700,710 760,740 700,770 640,740" class="decision" />
+  <text x="700" y="745" class="step-title">Save Results?</text>
+  
+  <!-- Save to Profile -->
+  <rect x="650" y="600" width="200" height="60" rx="5" ry="5" class="process" />
+  <text x="750" y="625" class="step-title">Save to Profile</text>
+  <text x="750" y="645" class="step-description">Store for future reference</text>
+  
+  <!-- Share Results Decision -->
+  <polygon points="900,710 960,740 900,770 840,740" class="decision" />
+  <text x="900" y="745" class="step-title">Share Results?</text>
+  
+  <!-- Share Options -->
+  <rect x="850" y="600" width="200" height="60" rx="5" ry="5" class="process" />
+  <text x="950" y="625" class="step-title">Share Options</text>
+  <text x="950" y="645" class="step-description">Email, social media, link</text>
+  
+  <!-- End -->
+  <ellipse cx="500" cy="30" rx="80" ry="30" class="start-end" />
+  <text x="500" y="35" class="step-title">End</text>
+  
+  <!-- Connections -->
+  <!-- Main Flow -->
+  <path d="M 500 110 L 500 130" class="flow" />
+  <path d="M 500 190 L 500 220" class="flow" />
+  <path d="M 500 280 L 500 310" class="flow" />
+  <path d="M 500 390 L 500 420" class="flow" />
+  <text x="510" y="410" class="step-description">Yes</text>
+  <path d="M 500 480 L 500 510" class="flow" />
+  <path d="M 500 570 L 500 600" class="flow" />
+  <path d="M 500 680 L 500 710" class="flow" />
+  <text x="510" y="700" class="step-description">Yes</text>
+  
+  <!-- Decision Flows -->
+  <path d="M 440 350 L 350 350" class="flow" />
+  <text x="400" y="340" class="step-description">No</text>
+  <path d="M 250 410 L 250 450 L 400 450" class="flow" />
+  
+  <!-- Results Processing -->
+  <path d="M 600 740 L 640 740" class="flow" />
+  <path d="M 700 710 L 700 660" class="flow" />
+  <text x="710" y="690" class="step-description">Yes</text>
+  <path d="M 700 600 L 700 550 L 600 550" class="flow" />
+  
+  <path d="M 760 740 L 840 740" class="flow" />
+  <path d="M 900 710 L 900 660" class="flow" />
+  <text x="910" y="690" class="step-description">Yes</text>
+  <path d="M 900 600 L 900 500 L 600 500" class="flow" />
+  
+  <!-- Loop back to dashboard -->
+  <path d="M 900 770 L 900 800 L 250 800 L 250 250 L 400 250" class="flow" />
+  <text x="910" y="790" class="step-description">No</text>
+  
+  <path d="M 700 770 L 700 800" class="alternative" />
+  <text x="710" y="790" class="step-description">No</text>
+  
+  <!-- Processing wait -->
+  <path d="M 440 640 L 400 640 L 400 550 L 400 550" class="flow" />
+  <text x="410" y="630" class="step-description">No</text>
+  
+  <!-- Legend -->
+  <rect x="50" y="100" width="200" height="180" rx="5" ry="5" fill="#f5f5f5" stroke="#333" stroke-width="1" />
+  <text x="150" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold">Legend</text>
+  
+  <ellipse cx="70" cy="140" rx="15" ry="10" class="start-end" />
+  <text x="150" y="145" class="step-description" text-anchor="start">Start/End</text>
+  
+  <rect x="60" y="160" width="20" height="15" rx="2" ry="2" class="process" />
+  <text x="150" y="170" class="step-description" text-anchor="start">Process</text>
+  
+  <rect x="60" y="185" width="20" height="15" rx="2" ry="2" class="input-output" />
+  <text x="150" y="195" class="step-description" text-anchor="start">Input/Output</text>
+  
+  <polygon points="70,215 80,225 70,235 60,225" class="decision" />
+  <text x="150" y="225" class="step-description" text-anchor="start">Decision</text>
+  
+  <line x1="60" y1="250" x2="80" y2="250" class="flow" />
+  <text x="150" y="255" class="step-description" text-anchor="start">Normal Flow</text>
+  
+  <line x1="60" y1="270" x2="80" y2="270" class="alternative" />
+  <text x="150" y="275" class="step-description" text-anchor="start">Alternative Path</text>
+  
+  <!-- Description -->
+  <text x="500" y="770" text-anchor="middle" font-family="Arial, sans-serif" font-size="14">User Flow Diagram for NewsGuard-AI Project</text>
+  <text x="500" y="790" text-anchor="middle" font-family="Arial, sans-serif" font-size="12">Shows the journey of users through the content verification process</text>
+</svg>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="800" viewBox="0 0 1000 800">
+  <style>
+    .actor {
+      fill: #f5f5f5;
+      stroke: #333;
+      stroke-width: 2;
+    }
+    .actor-text {
+      fill: #2c3e50;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: bold;
+      text-anchor: middle;
+    }
+    .lifeline {
+      stroke: #bdc3c7;
+      stroke-width: 1;
+      stroke-dasharray: 5,5;
+    }
+    .activation {
+      fill: #e8f4f8;
+      stroke: #2980b9;
+      stroke-width: 1;
+    }
+    .message {
+      stroke: #3498db;
+      stroke-width: 1;
+      fill: none;
+      marker-end: url(#arrowhead);
+    }
+    .return-message {
+      stroke: #e74c3c;
+      stroke-width: 1;
+      stroke-dasharray: 2,2;
+      fill: none;
+      marker-end: url(#arrowhead-return);
+    }
+    .message-text {
+      fill: #333;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      text-anchor: middle;
+    }
+    .note {
+      fill: #fff9db;
+      stroke: #f1c40f;
+      stroke-width: 1;
+    }
+    .note-text {
+      fill: #333;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      text-anchor: middle;
+    }
+  </style>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#3498db" />
+    </marker>
+    <marker id="arrowhead-return" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#e74c3c" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="500" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold">NewsGuard-AI Article Verification Sequence</text>
+  
+  <!-- Actors -->
+  <rect x="50" y="60" width="100" height="40" rx="5" ry="5" class="actor" />
+  <text x="100" y="85" class="actor-text">User</text>
+  
+  <rect x="250" y="60" width="100" height="40" rx="5" ry="5" class="actor" />
+  <text x="300" y="85" class="actor-text">Web UI</text>
+  
+  <rect x="450" y="60" width="100" height="40" rx="5" ry="5" class="actor" />
+  <text x="500" y="85" class="actor-text">API Server</text>
+  
+  <rect x="650" y="60" width="100" height="40" rx="5" ry="5" class="actor" />
+  <text x="700" y="85" class="actor-text">AI Engine</text>
+  
+  <rect x="850" y="60" width="100" height="40" rx="5" ry="5" class="actor" />
+  <text x="900" y="85" class="actor-text">Database</text>
+  
+  <!-- Lifelines -->
+  <line x1="100" y1="100" x2="100" y2="750" class="lifeline" />
+  <line x1="300" y1="100" x2="300" y2="750" class="lifeline" />
+  <line x1="500" y1="100" x2="500" y2="750" class="lifeline" />
+  <line x1="700" y1="100" x2="700" y2="750" class="lifeline" />
+  <line x1="900" y1="100" x2="900" y2="750" class="lifeline" />
+  
+  <!-- Activations -->
+  <rect x="95" y="150" width="10" height="550" class="activation" />
+  <rect x="295" y="150" width="10" height="550" class="activation" />
+  <rect x="495" y="200" width="10" height="450" class="activation" />
+  <rect x="695" y="250" width="10" height="350" class="activation" />
+  <rect x="895" y="300" width="10" height="50" class="activation" />
+  <rect x="895" y="500" width="10" height="50" class="activation" />
+  <rect x="895" y="600" width="10" height="50" class="activation" />
+  
+  <!-- Messages -->
+  <!-- Initial Request -->
+  <path d="M 105 150 L 295 150" class="message" />
+  <text x="200" y="140" class="message-text">Submit article for verification</text>
+  
+  <!-- Web UI to API Server -->
+  <path d="M 305 200 L 495 200" class="message" />
+  <text x="400" y="190" class="message-text">POST /api/verify</text>
+  
+  <!-- API Server to AI Engine -->
+  <path d="M 505 250 L 695 250" class="message" />
+  <text x="600" y="240" class="message-text">Process article content</text>
+  
+  <!-- AI Engine to Database (Get trusted sources) -->
+  <path d="M 705 300 L 895 300" class="message" />
+  <text x="800" y="290" class="message-text">Get trusted sources</text>
+  
+  <!-- Database to AI Engine (Return sources) -->
+  <path d="M 895 350 L 705 350" class="return-message" />
+  <text x="800" y="340" class="message-text">Return source data</text>
+  
+  <!-- AI Engine Processing Note -->
+  <rect x="720" y="370" width="150" height="60" rx="5" ry="5" class="note" />
+  <text x="795" y="395" class="note-text">Analyze content</text>
+  <text x="795" y="415" class="note-text">Cross-reference sources</text>
+  
+  <!-- AI Engine to Database (Store results) -->
+  <path d="M 705 500 L 895 500" class="message" />
+  <text x="800" y="490" class="message-text">Store verification results</text>
+  
+  <!-- Database to AI Engine (Confirm storage) -->
+  <path d="M 895 550 L 705 550" class="return-message" />
+  <text x="800" y="540" class="message-text">Confirm storage</text>
+  
+  <!-- AI Engine to API Server -->
+  <path d="M 695 600 L 505 600" class="return-message" />
+  <text x="600" y="590" class="message-text">Return verification results</text>
+  
+  <!-- API Server to Database (Update user history) -->
+  <path d="M 505 600 L 895 600" class="message" />
+  <text x="700" y="620" class="message-text">Update user history</text>
+  
+  <!-- Database to API Server (Confirm update) -->
+  <path d="M 895 650 L 505 650" class="return-message" />
+  <text x="700" y="670" class="message-text">Confirm update</text>
+  
+  <!-- API Server to Web UI -->
+  <path d="M 495 650 L 305 650" class="return-message" />
+  <text x="400" y="640" class="message-text">Return results JSON</text>
+  
+  <!-- Web UI to User -->
+  <path d="M 295 700 L 105 700" class="return-message" />
+  <text x="200" y="690" class="message-text">Display verification results</text>
+  
+  <!-- Actor bottom boxes -->
+  <rect x="50" y="750" width="100" height="40" rx="5" ry="5" class="actor" />
+  <text x="100" y="775" class="actor-text">User</text>
+  
+  <rect x="250" y="750" width="100" height="40" rx="5" ry="5" class="actor" />
+  <text x="300" y="775" class="actor-text">Web UI</text>
+  
+  <rect x="450" y="750" width="100" height="40" rx="5" ry="5" class="actor" />
+  <text x="500" y="775" class="actor-text">API Server</text>
+  
+  <rect x="650" y="750" width="100" height="40" rx="5" ry="5" class="actor" />
+  <text x="700" y="775" class="actor-text">AI Engine</text>
+  
+  <rect x="850" y="750" width="100" height="40" rx="5" ry="5" class="actor" />
+  <text x="900" y="775" class="actor-text">Database</text>
+</svg>

@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="800" viewBox="0 0 1000 800">
+  <style>
+    .component {
+      fill: #f5f5f5;
+      stroke: #333;
+      stroke-width: 2;
+    }
+    .component-title {
+      fill: #2c3e50;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      font-weight: bold;
+      text-anchor: middle;
+    }
+    .component-description {
+      fill: #333;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      text-anchor: middle;
+    }
+    .interface {
+      fill: #ffffff;
+      stroke: #3498db;
+      stroke-width: 2;
+    }
+    .interface-text {
+      fill: #3498db;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      text-anchor: middle;
+    }
+    .dependency {
+      stroke: #3498db;
+      stroke-width: 1.5;
+      fill: none;
+      marker-end: url(#arrowhead);
+    }
+    .module {
+      fill: #e8f4f8;
+      stroke: #2980b9;
+      stroke-width: 2;
+    }
+    .service {
+      fill: #e8f8f5;
+      stroke: #27ae60;
+      stroke-width: 2;
+    }
+    .utility {
+      fill: #fef5e7;
+      stroke: #f39c12;
+      stroke-width: 2;
+    }
+    .data {
+      fill: #f8e8f5;
+      stroke: #8e44ad;
+      stroke-width: 2;
+    }
+  </style>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#3498db" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="500" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold">NewsGuard-AI Component Diagram</text>
+  
+  <!-- Frontend Components -->
+  <rect x="50" y="100" width="200" height="100" rx="10" ry="10" class="component module" />
+  <text x="150" y="130" class="component-title">User Interface Module</text>
+  <text x="150" y="150" class="component-description">Web and mobile interfaces</text>
+  <text x="150" y="170" class="component-description">for user interaction</text>
+  
+  <rect x="50" y="220" width="90" height="60" rx="5" ry="5" class="component service" />
+  <text x="95" y="250" class="component-title">Dashboard</text>
+  <text x="95" y="265" class="component-description">User portal</text>
+  
+  <rect x="160" y="220" width="90" height="60" rx="5" ry="5" class="component service" />
+  <text x="205" y="250" class="component-title">Search</text>
+  <text x="205" y="265" class="component-description">Content finder</text>
+  
+  <rect x="50" y="300" width="90" height="60" rx="5" ry="5" class="component service" />
+  <text x="95" y="330" class="component-title">Results View</text>
+  <text x="95" y="345" class="component-description">Analysis display</text>
+  
+  <rect x="160" y="300" width="90" height="60" rx="5" ry="5" class="component service" />
+  <text x="205" y="330" class="component-title">User Profile</text>
+  <text x="205" y="345" class="component-description">Account mgmt</text>
+  
+  <!-- Backend Components -->
+  <rect x="350" y="100" width="200" height="100" rx="10" ry="10" class="component module" />
+  <text x="450" y="130" class="component-title">API Gateway Module</text>
+  <text x="450" y="150" class="component-description">RESTful endpoints for</text>
+  <text x="450" y="170" class="component-description">client-server communication</text>
+  
+  <rect x="350" y="220" width="90" height="60" rx="5" ry="5" class="component service" />
+  <text x="395" y="250" class="component-title">Auth API</text>
+  <text x="395" y="265" class="component-description">User security</text>
+  
+  <rect x="460" y="220" width="90" height="60" rx="5" ry="5" class="component service" />
+  <text x="505" y="250" class="component-title">Content API</text>
+  <text x="505" y="265" class="component-description">Article mgmt</text>
+  
+  <rect x="350" y="300" width="90" height="60" rx="5" ry="5" class="component service" />
+  <text x="395" y="330" class="component-title">Verify API</text>
+  <text x="395" y="345" class="component-description">Analysis svc</text>
+  
+  <rect x="460" y="300" width="90" height="60" rx="5" ry="5" class="component service" />
+  <text x="505" y="330" class="component-title">History API</text>
+  <text x="505" y="345" class="component-description">User activity</text>
+  
+  <!-- Core Components -->
+  <rect x="650" y="100" width="200" height="100" rx="10" ry="10" class="component module" />
+  <text x="750" y="130" class="component-title">Verification Engine</text>
+  <text x="750" y="150" class="component-description">Core AI analysis and</text>
+  <text x="750" y="170" class="component-description">content verification logic</text>
+  
+  <rect x="650" y="220" width="90" height="60" rx="5" ry="5" class="component service" />
+  <text x="695" y="250" class="component-title">NLP Processor</text>
+  <text x="695" y="265" class="component-description">Text analysis</text>
+  
+  <rect x="760" y="220" width="90" height="60" rx="5" ry="5" class="component service" />
+  <text x="805" y="250" class="component-title">Source Check</text>
+  <text x="805" y="265" class="component-description">Credibility</text>
+  
+  <rect x="650" y="300" width="90" height="60" rx="5" ry="5" class="component service" />
+  <text x="695" y="330" class="component-title">Fact Matcher</text>
+  <text x="695" y="345" class="component-description">Verification</text>
+  
+  <rect x="760" y="300" width="90" height="60" rx="5" ry="5" class="component service" />
+  <text x="805" y="330" class="component-title">Score Engine</text>
+  <text x="805" y="345" class="component-description">Result calc</text>
+  
+  <!-- Utility Components -->
+  <rect x="350" y="400" width="200" height="100" rx="10" ry="10" class="component utility" />
+  <text x="450" y="430" class="component-title">Utility Services</text>
+  <text x="450" y="450" class="component-description">Cross-cutting concerns</text>
+  <text x="450" y="470" class="component-description">and support functions</text>
+  
+  <rect x="350" y="520" width="90" height="60" rx="5" ry="5" class="component utility" />
+  <text x="395" y="550" class="component-title">Logging</text>
+  <text x="395" y="565" class="component-description">Activity logs</text>
+  
+  <rect x="460" y="520" width="90" height="60" rx="5" ry="5" class="component utility" />
+  <text x="505" y="550" class="component-title">Caching</text>
+  <text x="505" y="565" class="component-description">Performance</text>
+  
+  <rect x="350" y="600" width="90" height="60" rx="5" ry="5" class="component utility" />
+  <text x="395" y="630" class="component-title">Notifications</text>
+  <text x="395" y="645" class="component-description">Alerts</text>
+  
+  <rect x="460" y="600" width="90" height="60" rx="5" ry="5" class="component utility" />
+  <text x="505" y="630" class="component-title">Analytics</text>
+  <text x="505" y="645" class="component-description">Usage stats</text>
+  
+  <!-- Data Components -->
+  <rect x="650" y="400" width="200" height="100" rx="10" ry="10" class="component data" />
+  <text x="750" y="430" class="component-title">Data Access Layer</text>
+  <text x="750" y="450" class="component-description">Database interactions</text>
+  <text x="750" y="470" class="component-description">and data management</text>
+  
+  <rect x="650" y="520" width="90" height="60" rx="5" ry="5" class="component data" />
+  <text x="695" y="550" class="component-title">User Data</text>
+  <text x="695" y="565" class="component-description">Profiles</text>
+  
+  <rect x="760" y="520" width="90" height="60" rx="5" ry="5" class="component data" />
+  <text x="805" y="550" class="component-title">Content Data</text>
+  <text x="805" y="565" class="component-description">Articles</text>
+  
+  <rect x="650" y="600" width="90" height="60" rx="5" ry="5" class="component data" />
+  <text x="695" y="630" class="component-title">Results Data</text>
+  <text x="695" y="645" class="component-description">Verifications</text>
+  
+  <rect x="760" y="600" width="90" height="60" rx="5" ry="5" class="component data" />
+  <text x="805" y="630" class="component-title">Source Data</text>
+  <text x="805" y="645" class="component-description">References</text>
+  
+  <!-- External Services -->
+  <rect x="50" y="400" width="200" height="100" rx="10" ry="10" class="component module" />
+  <text x="150" y="430" class="component-title">External Services</text>
+  <text x="150" y="450" class="component-description">Third-party integrations</text>
+  <text x="150" y="470" class="component-description">and external APIs</text>
+  
+  <rect x="50" y="520" width="90" height="60" rx="5" ry="5" class="component module" />
+  <text x="95" y="550" class="component-title">News APIs</text>
+  <text x="95" y="565" class="component-description">Content</text>
+  
+  <rect x="160" y="520" width="90" height="60" rx="5" ry="5" class="component module" />
+  <text x="205" y="550" class="component-title">Auth Services</text>
+  <text x="205" y="565" class="component-description">OAuth</text>
+  
+  <rect x="50" y="600" width="90" height="60" rx="5" ry="5" class="component module" />
+  <text x="95" y="630" class="component-title">Fact Checkers</text>
+  <text x="95" y="645" class="component-description">Verification</text>
+  
+  <rect x="160" y="600" width="90" height="60" rx="5" ry="5" class="component module" />
+  <text x="205" y="630" class="component-title">AI Services</text>
+  <text x="205" y="645" class="component-description">ML models</text>
+  
+  <!-- Interfaces -->
+  <circle cx="250" y="150" r="10" class="interface" />
+  <text x="250" y="180" class="interface-text">UI</text>
+  
+  <circle cx="350" y="150" r="10" class="interface" />
+  <text x="350" y="180" class="interface-text">API</text>
+  
+  <circle cx="550" y="150" r="10" class="interface" />
+  <text x="550" y="180" class="interface-text">Service</text>
+  
+  <circle cx="650" y="150" r="10" class="interface" />
+  <text x="650" y="180" class="interface-text">Engine</text>
+  
+  <circle cx="550" y="450" r="10" class="interface" />
+  <text x="550" y="480" class="interface-text">Util</text>
+  
+  <circle cx="650" y="450" r="10" class="interface" />
+  <text x="650" y="480" class="interface-text">Data</text>
+  
+  <circle cx="250" y="450" r="10" class="interface" />
+  <text x="250" y="480" class="interface-text">External</text>
+  
+  <!-- Dependencies -->
+  <path d="M 250 150 L 350 150" class="dependency" />
+  <path d="M 550 150 L 650 150" class="dependency" />
+  
+  <path d="M 450 200 L 450 400" class="dependency" />
+  <path d="M 750 200 L 750 400" class="dependency" />
+  
+  <path d="M 250 450 L 350 450" class="dependency" />
+  <path d="M 550 450 L 650 450" class="dependency" />
+  
+  <path d="M 350 150 C 400 250 500 250 550 150" class="dependency" />
+  <path d="M 650 150 C 700 300 600 450 650 450" class="dependency" />
+  
+  <!-- Legend -->
+  <rect x="850" y="520" width="120" height="140" rx="5" ry="5" fill="#f5f5f5" stroke="#333" stroke-width="1" />
+  <text x="910" y="540" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold">Legend</text>
+  
+  <rect x="860" y="550" width="20" height="10" class="module" />
+  <text x="920" y="560" class="component-description" text-anchor="start">Module</text>
+  
+  <rect x="860" y="570" width="20" height="10" class="service" />
+  <text x="920" y="580" class="component-description" text-anchor="start">Service</text>
+  
+  <rect x="860" y="590" width="20" height="10" class="utility" />
+  <text x="920" y="600" class="component-description" text-anchor="start">Utility</text>
+  
+  <rect x="860" y="610" width="20" height="10" class="data" />
+  <text x="920" y="620" class="component-description" text-anchor="start">Data</text>
+  
+  <circle cx="870" cy="635" r="5" class="interface" />
+  <text x="920" y="640" class="component-description" text-anchor="start">Interface</text>
+  
+  <line x1="860" y1="655" x2="880" y2="655" class="dependency" />
+  <text x="920" y="660" class="component-description" text-anchor="start">Dependency</text>
+  
+  <!-- Description -->
+  <text x="500" y="770" text-anchor="middle" font-family="Arial, sans-serif" font-size="14">Component Diagram for NewsGuard-AI Project</text>
+  <text x="500" y="790" text-anchor="middle" font-family="Arial, sans-serif" font-size="12">Shows the modular structure and relationships between system components</text>
+</svg>
